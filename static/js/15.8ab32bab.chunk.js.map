@@ -1,0 +1,1 @@
+{"version":3,"sources":["pages/DefaultPage.js"],"names":["DefaultPage"],"mappings":"6JAAA,uBAMeA,UAJK,WACnB,OAAO","file":"static/js/15.8ab32bab.chunk.js","sourcesContent":["import React from 'react';\n\nconst DefaultPage = () => {\n\treturn <></>;\n};\n\nexport default DefaultPage;\n"],"sourceRoot":""}

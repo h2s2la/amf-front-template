@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/assets/third-party/apex-chart.css"],"names":[],"mappings":"AAAA,oDACI,mBAAqB,CACrB,iBACJ","file":"main.dd5067ae.chunk.css","sourcesContent":[".apexcharts-legend-series .apexcharts-legend-marker {\n    left: -4px !important;\n    top: 2px !important;\n}\n"]}

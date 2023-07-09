@@ -1,0 +1,2 @@
+(this["webpackJsonpmantis-free-react-admin-template"]=this["webpackJsonpmantis-free-react-admin-template"]||[]).push([[15],{830:function(t,e,a){"use strict";a.r(e);a(0);var n=a(1);e.default=function(){return Object(n.jsx)(n.Fragment,{})}}}]);
+//# sourceMappingURL=15.8ab32bab.chunk.js.map
