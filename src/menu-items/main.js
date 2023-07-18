@@ -13,8 +13,22 @@ const main = {
 	type: 'group',
 	children: [
 		{
+			id: 'campground',
+			title: '캠핑장',
+			type: 'collapse',
+			icon: icons.CommentOutlined,
+			children: [
+				{
+					id: 'camp',
+					title: '캠핑장 보기',
+					type: 'item',
+					url: '/campground',
+				},
+			],
+		},
+		{
 			id: 'board',
-			title: '게시판',
+			title: 'QnA',
 			type: 'collapse',
 			icon: icons.CommentOutlined,
 			children: [

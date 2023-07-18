@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { lazy } from 'react';
+import {lazy} from 'react';
 
 // project import
 import Loadable from 'components/Loadable';
@@ -20,7 +20,7 @@ const MainRoutes = {
 	children: [
 		{
 			path: '',
-			element: <DefaultPage />
+			element: <DefaultPage />,
 		},
 		{
 			path: 'board',
@@ -38,7 +38,7 @@ const MainRoutes = {
 			path: 'post/update',
 			element: <UpdatePost />,
 		},
-	]
+	],
 };
 
 export default MainRoutes;
