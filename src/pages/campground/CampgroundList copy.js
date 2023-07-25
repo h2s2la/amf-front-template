@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {/*Button,*/ Grid, Autocomplete, TextField} from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import DataTable from 'components/@extended/DataTable';
 import {useNavigate} from 'react-router-dom';
 import {getCampgrounds} from 'api/campground';
@@ -10,19 +10,6 @@ const Campgrounds = () => {
 	const navigate = useNavigate();
 	const [campgrounds, setCampgrounds] = useState([]);
 	//const [isLoading, setLoading] = useState(false);
-	const [region, setRegion] = useState('');
-	// const [name, setName] = useState('');
-	// const [data, setData] = useState(null);
-
-	const regions = [
-		'지역선택',
-		'수도권',
-		'강원권',
-		'충청권',
-		'경상권',
-		'전라권',
-		'제주권',
-	];
 
 	useEffect(() => {
 		findCampgroundList();
@@ -35,24 +22,20 @@ const Campgrounds = () => {
 		//		setLoading(false);
 	};
 
-	// const moveCreateCampgroundPage = () => {
-	// 	navigate(`/campground/regist`);
-	// };
+	const moveCreateCampgroundPage = () => {
+		navigate(`/campground/regist`);
+	};
 
 	const rowClick = useCallback((e, row) => {
 		const campgroundId = row.id;
 		navigate(`/campground/${campgroundId}`);
 	}, []);
 
-	const handleRegionChange = (event, value) => {
-		setRegion(value);
-	};
-
 	return (
 		<div>
-			<h1>캠핑장 조회</h1>
+			<h1>Campgrounds</h1>
 			<>
-				{/* <Grid
+				<Grid
 					container
 					direction='row'
 					justifyContent='flex-end'
@@ -65,29 +48,6 @@ const Campgrounds = () => {
 						>
 							등록하기
 						</Button>
-					</Grid>
-				</Grid> */}
-				<Grid
-					container
-					direction='row'
-					justifyContent='center'
-					spacing={200}
-				>
-					<Grid item>
-						<Autocomplete
-							id='region-select'
-							value={region}
-							onChange={handleRegionChange}
-							options={regions}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									label='지역선택'
-									variant='outlined'
-									size='large'
-								/>
-							)}
-						></Autocomplete>
 					</Grid>
 				</Grid>
 				<DataTable

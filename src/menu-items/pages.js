@@ -1,10 +1,10 @@
 // assets
-import { LoginOutlined, ProfileOutlined } from '@ant-design/icons';
+import {LoginOutlined, ProfileOutlined} from '@ant-design/icons';
 
 // icons
 const icons = {
 	LoginOutlined,
-	ProfileOutlined
+	ProfileOutlined,
 };
 
 // ==============================|| MENU ITEMS - EXTRA PAGES ||============================== //
@@ -18,19 +18,19 @@ const pages = {
 			id: 'login',
 			title: 'Login',
 			type: 'item',
-			url: '/auth/login',
+			url: '/login',
 			icon: icons.LoginOutlined,
-			target: true
+			//		target: true,
 		},
 		{
 			id: 'register',
 			title: 'Register',
 			type: 'item',
-			url: '/auth/sign-up',
+			url: '/sign-up',
 			icon: icons.ProfileOutlined,
-			target: true
-		}
-	]
+			//		target: true,
+		},
+	],
 };
 
 export default pages;

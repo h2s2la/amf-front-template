@@ -20,7 +20,7 @@ const main = {
 			children: [
 				{
 					id: 'camp',
-					title: '캠핑장 보기',
+					title: '캠핑장 조회',
 					type: 'item',
 					url: '/campground',
 				},
