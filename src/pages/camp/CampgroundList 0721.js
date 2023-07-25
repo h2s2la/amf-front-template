@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {/*Button,*/ Grid, Autocomplete, TextField} from '@mui/material';
 import DataTable from 'components/@extended/DataTable';
 import {useNavigate} from 'react-router-dom';
-import {getCampgrounds} from 'api/campground';
+import {getCampgrounds} from 'api/camp';
 
 //import CampgroundItem from 'components/CampgroundItem';
 

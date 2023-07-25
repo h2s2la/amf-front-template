@@ -37,7 +37,7 @@ import {useSnackbar} from 'notistack';
 const AuthRegister = () => {
 	const [level, setLevel] = useState();
 	const [showPassword, setShowPassword] = useState(false);
-	const [memberType, setMemberType] = useState('');
+	const [memberType, setMemberType] = useState('Camper');
 
 	const {enqueueSnackbar} = useSnackbar();
 	const navigate = useNavigate();
@@ -69,23 +69,25 @@ const AuthRegister = () => {
 			<Formik
 				initialValues={{
 					memberType: 'Camper',
+					id: '',
 					name: '',
 					nickname: '',
-					call: '',
-					bizNum: '',
+					cellNumber: '',
+					bizNumber: '',
 					password: '',
 					passwordCheck: '',
 					submit: null,
 				}}
 				validationSchema={Yup.object().shape({
+					id: Yup.string().max(10).required('ID는 필수입니다.'),
 					name: Yup.string().max(10).required('이름은 필수입니다.'),
 					nickname: Yup.string()
 						.max(10)
 						.required('닉네임은 필수입니다.'),
-					email: Yup.string()
-						.email('이메일 형식으로 입력해주세요.')
-						.max(255)
-						.required('이메일은 필수입니다.'),
+					// email: Yup.string()
+					// 	.email('이메일 형식으로 입력해주세요.')
+					// 	.max(255)
+					// 	.required('이메일은 필수입니다.'),
 					password: Yup.string()
 						.min(8, '비밀번호는 최소 8자리이상 필요합니다.')
 						.max(255)
@@ -104,7 +106,7 @@ const AuthRegister = () => {
 						const response = await createMember(values);
 
 						if (response === -1) {
-							enqueueSnackbar('중복된 이메일입니다.', {
+							enqueueSnackbar('중복된 ID입니다.', {
 								variant: 'error',
 							});
 							setErrors({submit: '회원가입 실패'});
@@ -116,7 +118,7 @@ const AuthRegister = () => {
 						enqueueSnackbar('회원가입에 성공하였습니다.', {
 							variant: 'success',
 						});
-						navigate('/auth/login');
+						navigate('/login');
 					} catch (err) {
 						setErrors({submit: err.message});
 						setSubmitting(false);
@@ -143,25 +145,29 @@ const AuthRegister = () => {
 										{' '}
 										구분
 									</InputLabel>
+
 									<FormControl component='fieldset'>
 										<RadioGroup
 											name='memberType'
 											value={memberType}
 											onChange={handleMemberTypeChange}
 										>
-											<FormControlLabel
-												value='Camper'
-												control={<Radio />}
-												label='캠퍼'
-											/>
-											<FormControlLabel
-												value='Camjigi'
-												control={<Radio />}
-												label='캠지기'
-											/>
+											<Grid item xs={6}>
+												<FormControlLabel
+													value='Camper'
+													control={<Radio />}
+													label='캠퍼'
+												/>
+											</Grid>
+											<Grid item xs={6}>
+												<FormControlLabel
+													value='Camjigi'
+													control={<Radio />}
+													label='캠지기'
+												/>
+											</Grid>
 										</RadioGroup>
 									</FormControl>
-
 									{touched.memberType && errors.memberType && (
 										<FormHelperText
 											error
@@ -174,32 +180,27 @@ const AuthRegister = () => {
 							</Grid>
 							<Grid item xs={12}>
 								<Stack spacing={1}>
-									<InputLabel
-										htmlFor='userId-signup'
-										required
-									>
+									<InputLabel htmlFor='id-signup' required>
 										{' '}
 										ID
 									</InputLabel>
 									<OutlinedInput
 										fullWidth
-										error={Boolean(
-											touched.userId && errors.userId,
-										)}
-										id='userId-signup'
+										error={Boolean(touched.id && errors.id)}
+										id='id-signup'
 										type='text'
-										value={values.userId}
-										name='userId'
+										value={values.id}
+										name='id'
 										onBlur={handleBlur}
 										onChange={handleChange}
 										placeholder='ID를 입력하세요'
 									/>
-									{touched.userId && errors.userId && (
+									{touched.id && errors.id && (
 										<FormHelperText
 											error
-											id='helper-text-userId-signup'
+											id='helper-text-id-signup'
 										>
-											{errors.userId}
+											{errors.id}
 										</FormHelperText>
 									)}
 								</Stack>
@@ -269,7 +270,7 @@ const AuthRegister = () => {
 									<Stack spacing={1}>
 										<>
 											<InputLabel
-												htmlFor='bizNum-signup'
+												htmlFor='bizNumber-signup'
 												required
 											>
 												사업자번호
@@ -277,53 +278,58 @@ const AuthRegister = () => {
 											<OutlinedInput
 												fullWidth
 												error={Boolean(
-													touched.bizNum &&
-														errors.bizNum,
+													touched.bizNumber &&
+														errors.bizNumber,
 												)}
-												id='bizNum-login'
-												type='bizNum'
-												value={values.bizNum}
-												name='bizNum'
+												id='bizNumber-login'
+												type='bizNumber'
+												value={values.bizNumber}
+												name='bizNumber'
 												onBlur={handleBlur}
 												onChange={handleChange}
 												placeholder='사업자번호를 입력하세요.'
 											/>
-											{touched.call && errors.call && (
-												<FormHelperText
-													error
-													id='helper-text-bizNum-signup'
-												>
-													{errors.bizNum}
-												</FormHelperText>
-											)}
+											{touched.bizNumber &&
+												errors.bizNumber && (
+													<FormHelperText
+														error
+														id='helper-text-bizNumber-signup'
+													>
+														{errors.bizNum}
+													</FormHelperText>
+												)}
 										</>
 									</Stack>
 								</Grid>
 							)}
 							<Grid item xs={12}>
 								<Stack spacing={1}>
-									<InputLabel htmlFor='call-signup' required>
+									<InputLabel
+										htmlFor='cellNumber-signup'
+										required
+									>
 										전화번호
 									</InputLabel>
 									<OutlinedInput
 										fullWidth
 										error={Boolean(
-											touched.call && errors.call,
+											touched.cellNumber &&
+												errors.cellNumber,
 										)}
-										id='call-login'
-										type='call'
-										value={values.call}
-										name='call'
+										id='cellNumber-login'
+										type='cellNumber'
+										value={values.cellNumber}
+										name='cellNumber'
 										onBlur={handleBlur}
 										onChange={handleChange}
 										placeholder='전화번호를 입력하세요.'
 									/>
-									{touched.call && errors.call && (
+									{touched.cellNumber && errors.cellNumber && (
 										<FormHelperText
 											error
-											id='helper-text-call-signup'
+											id='helper-text-cellNumber-signup'
 										>
-											{errors.call}
+											{errors.cellNumber}
 										</FormHelperText>
 									)}
 								</Stack>

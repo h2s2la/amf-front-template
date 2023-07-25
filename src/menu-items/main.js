@@ -24,6 +24,18 @@ const main = {
 					type: 'item',
 					url: '/campground',
 				},
+				{
+					id: 'campgroundInfo',
+					title: '캠핑장 정보',
+					type: 'item',
+					url: '/campground/regist',
+				},
+				{
+					id: 'campsiteInfo',
+					title: '캠핑사이트 정보',
+					type: 'item',
+					url: '/campsite',
+				},
 			],
 		},
 		{
