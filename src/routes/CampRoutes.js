@@ -11,6 +11,7 @@ const DefaultPage = Loadable(lazy(() => import('pages/DefaultPage')));
 const CampgroundList = Loadable(
 	lazy(() => import('pages/camp/CampgroundList')),
 );
+const Campground = Loadable(lazy(() => import('pages/camp/Campground')));
 // const Board = Loadable(lazy(() => import('pages/board/Board')));
 // const Post = Loadable(lazy(() => import('pages/board/Post')));
 const Createcampground = Loadable(
@@ -22,6 +23,9 @@ const CampsiteList = Loadable(lazy(() => import('pages/camp/CampsiteList')));
 const Createcampsite = Loadable(
 	lazy(() => import('pages/camp/CreateCampsite')),
 );
+
+const Booking = Loadable(lazy(() => import('pages/camp/Booking')));
+
 // const UpdatePost = Loadable(lazy(() => import('pages/board/UpdatePost')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -37,6 +41,14 @@ const CampRoutes = {
 		{
 			path: 'campground',
 			element: <CampgroundList />,
+		},
+		{
+			path: 'camps/:id',
+			element: <Campground />,
+		},
+		{
+			path: 'booking/:id',
+			element: <Booking />,
 		},
 		// {
 		// 	path: 'board',

@@ -1,9 +1,25 @@
 import React from 'react';
-import { useState } from 'react';
+import {useState} from 'react';
 import PropTypes from 'prop-types';
-import { TableHead, TableBody, TableCell, TableContainer, TablePagination, TableRow, Table, Box, CircularProgress } from '@mui/material';
+import {
+	TableHead,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TablePagination,
+	TableRow,
+	Table,
+	Box,
+	CircularProgress,
+} from '@mui/material';
 
-const DataTable = ({ columns, rows, rowsPerPageOptions = [10, 25, 100], isLoading, rowClick }) => {
+const DataTable = ({
+	columns,
+	rows,
+	rowsPerPageOptions = [10, 25, 100],
+	isLoading,
+	rowClick,
+}) => {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -18,12 +34,18 @@ const DataTable = ({ columns, rows, rowsPerPageOptions = [10, 25, 100], isLoadin
 
 	return (
 		<>
-			<TableContainer sx={{ maxHeight: 440 }}>
-				<Table stickyHeader aria-label="sticky table">
+			<TableContainer sx={{}}>
+				<Table stickyHeader aria-label='sticky table'>
 					<TableHead>
 						<TableRow>
 							{columns.map((column) => (
-								<TableCell key={column.id} align={column.align ? column.align : 'center'} style={{ width: column.width }}>
+								<TableCell
+									key={column.id}
+									align={
+										column.align ? column.align : 'center'
+									}
+									style={{width: column.width}}
+								>
 									{column.label}
 								</TableCell>
 							))}
@@ -32,30 +54,48 @@ const DataTable = ({ columns, rows, rowsPerPageOptions = [10, 25, 100], isLoadin
 					<TableBody>
 						{!isLoading ? (
 							rows &&
-							rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-								return (
-									<TableRow
-										hover
-										tabIndex={-1}
-										key={row.id}
-										onClick={rowClick ? (e) => rowClick(e, row) : () => {}}
-										style={{ cursor: 'pointer' }}
-									>
-										{columns.map((column) => {
-											const value = row[column.id];
-											return (
-												<TableCell key={column.id} align={column.align ? column.align : 'center'}>
-													{column.render ? column.render(row) : value}
-												</TableCell>
-											);
-										})}
-									</TableRow>
-								);
-							})
+							rows
+								.slice(
+									page * rowsPerPage,
+									page * rowsPerPage + rowsPerPage,
+								)
+								.map((row) => {
+									return (
+										<TableRow
+											hover
+											tabIndex={-1}
+											key={row.id}
+											onClick={
+												rowClick
+													? (e) => rowClick(e, row)
+													: () => {}
+											}
+											style={{cursor: 'pointer'}}
+										>
+											{columns.map((column) => {
+												const value = row[column.id];
+												return (
+													<TableCell
+														key={column.id}
+														align={
+															column.align
+																? column.align
+																: 'center'
+														}
+													>
+														{column.render
+															? column.render(row)
+															: value}
+													</TableCell>
+												);
+											})}
+										</TableRow>
+									);
+								})
 						) : (
 							<TableRow>
-								<TableCell align="center" colSpan={6}>
-									<Box sx={{ py: 3, minHeight: 560 }}>
+								<TableCell align='center' colSpan={6}>
+									<Box sx={{py: 3, minHeight: 560}}>
 										<CircularProgress />
 									</Box>
 								</TableCell>
@@ -66,7 +106,7 @@ const DataTable = ({ columns, rows, rowsPerPageOptions = [10, 25, 100], isLoadin
 			</TableContainer>
 			<TablePagination
 				rowsPerPageOptions={rowsPerPageOptions}
-				component="div"
+				component='div'
 				count={rows ? rows.length : 0}
 				rowsPerPage={rowsPerPage}
 				page={page}
@@ -84,5 +124,5 @@ DataTable.propTypes = {
 	rows: PropTypes.array,
 	rowsPerPageOptions: PropTypes.array,
 	isLoading: PropTypes.bool,
-	rowClick: PropTypes.func
+	rowClick: PropTypes.func,
 };

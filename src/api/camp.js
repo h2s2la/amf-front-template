@@ -1,10 +1,13 @@
 import {default as axios} from 'utils/axiosHandler';
-import request from './request';
+// import request from './request';
 
-const CAMPGROUND_URL = '/api/v1/campground';
-const CAMPSITE_URL = '/api/v1/campsite';
+const CAMPGROUND_URL = '/api/v1/camps';
+const CAMPSITE_URL = '/api/v1/campsites';
 
 //export const getCampgroundList = async (params) => axios.get(CAMP_URL, params);
+
+export const getCampgroundList = async (params) =>
+	axios.get(CAMPGROUND_URL, params);
 
 export const getCampground = async ({id}) =>
 	axios.get(`${CAMPGROUND_URL}/${id}`);
@@ -34,22 +37,25 @@ export const getCampingData = async (region, name) => {
 	return response;
 };
 
-const defaultParam = {
-	key: process.env.REACT_APP_PIXABAY,
-	safesearch: true,
-};
-const getCampgroundList = async (paramObj) => {
-	const params = new URLSearchParams({
-		...defaultParam,
-		...paramObj,
-	}).toString();
-	const result = await request(`${CAMPGROUND_URL}/?${params}`);
-	return result;
-};
+// const defaultParam = {
+// 	key: process.env.REACT_APP_PIXABAY,
+// 	safesearch: true,
+// };
+// const getCampgroundList = async (paramObj) => {
+// 	const params = new URLSearchParams({
+// 		...defaultParam,
+// 		...paramObj,
+// 	}).toString();
+// 	const result = await request(`${CAMPGROUND_URL}/?${params}`);
+// 	return result;
+// };
 export default getCampgroundList;
 
 export const getCampsiteList = async (params) =>
 	axios.get(CAMPSITE_URL, params);
+
+export const getCampsiteListFindByName = async (name) =>
+	axios.get(`${CAMPGROUND_URL}/name/${name}`);
 
 export const createCampsite = async (params) =>
 	axios.post(`${CAMPSITE_URL}`, params);

@@ -70,7 +70,7 @@ const columns = [
 		align: 'left',
 		render: (rowData) => (
 			<img
-				src={rowData.image}
+				src={rowData.campsiteThumImage}
 				alt='campsite'
 				height='150'
 				//	width='150'
@@ -85,14 +85,8 @@ const columns = [
 		align: 'left',
 	},
 	{
-		id: 'usageFee',
+		id: 'price',
 		label: '이용 요금(원)',
-		width: 100,
-		align: 'left',
-	},
-	{
-		id: 'limitedNumber',
-		label: '제한 인원 수(명)',
 		width: 100,
 		align: 'left',
 	},

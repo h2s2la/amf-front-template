@@ -1,9 +1,12 @@
+import React from 'react';
 import {useState, useRef} from 'react';
 import styled from 'styled-components';
 import {ReactComponent as SearchIcon} from 'assets/search.svg';
 import SearchTag from './SearchTag';
 import SearchOption from './SearchOption';
 import {useEffect} from 'react';
+import {Grid} from '@mui/material';
+//import {getCampsiteListFindByName} from 'api/camp';
 
 const SearchTagContainer = styled.div`
 	display: flex;
@@ -22,6 +25,34 @@ const SearchBoxContainer = styled.div`
 	border-radius: 8px;
 	background-color: #ffffff;
 	box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+`;
+
+// const SearchBoxWrapper = styled.div`
+// 	display: flex;
+// 	align-items: center;
+// `;
+
+const SearchBoxSelect = styled.select`
+	margin: 16px;
+	padding: 16px;
+	border-radius: 8px;
+	border-color: #ffffff;
+	box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+	font-size: 16px;
+	flex-direction: row;
+	width: 85%;
+	color: #5e5e5e;
+	height: fit-content;
+	display: flex;
+	align-items: center;
+
+	& > option {
+		background-color: white;
+		color: black;
+	}
+	&:focus {
+		outline-color: #5e5e5e;
+	}
 `;
 
 const SearchInputContainer = styled.div`
@@ -47,7 +78,7 @@ const SearchOptionButton = styled.p`
 	color: #5e5e5e;
 `;
 
-const Search = ({setQuery, setOrder, setPerPage}) => {
+const Search = ({setName, setArea}) => {
 	const savedSearchTags = localStorage.getItem('searchTags');
 	const initialSearchTags = savedSearchTags
 		? JSON.parse(savedSearchTags)
@@ -55,6 +86,11 @@ const Search = ({setQuery, setOrder, setPerPage}) => {
 	const [searchOption, setSearchOption] = useState(false);
 	const [searchTags, setSearchTags] = useState(initialSearchTags);
 	const inputRef = useRef(null);
+	const [region, setRegion] = React.useState('');
+
+	const handleRegionChange = (event) => {
+		setRegion(event.target.value);
+	};
 
 	const updateSearchInput = (value) => {
 		inputRef.current.value = value;
@@ -63,18 +99,24 @@ const Search = ({setQuery, setOrder, setPerPage}) => {
 	const toggleSearchOption = () => {
 		setSearchOption((prev) => !prev);
 	};
-
-	const onSearch = (e) => {
+	//const [data, setData] = useState([]);
+	const onSearch = async (e) => {
 		if (e.key === 'Enter') {
-			const currentValue = e.target.value;
-			setQuery(currentValue);
+			const name = e.target.value;
+			setName(name);
 			updateSearchInput('');
-			setSearchTags((prev) => [...prev, currentValue]);
+			// setSearchTags((prev) => [...prev, currentValue]);
+			// const response = await getCampsiteListFindByName(name);
+			// console.log(
+			// 	name + '이름으로 조회결과 : ' + JSON.stringify(response),
+			// );
+
+			// setData(response);
 		}
 	};
 
 	const searchTag = (tag) => {
-		setQuery(tag);
+		setName(tag);
 		updateSearchInput(tag);
 	};
 
@@ -90,22 +132,41 @@ const Search = ({setQuery, setOrder, setPerPage}) => {
 
 	return (
 		<>
-			<SearchBoxContainer>
-				<SearchInputContainer>
-					<SearchIcon width='24' fill='#5e5e5e' />
-					<SearchInput
-						ref={inputRef}
-						placeholder='검색어 입력 후 ENTER'
-						onKeyDown={onSearch}
-					/>
-					<SearchOptionButton onClick={toggleSearchOption}>
-						검색 옵션 {searchOption ? '닫기' : '열기'}
-					</SearchOptionButton>
-				</SearchInputContainer>
-				<div hidden={!searchOption}>
-					<SearchOption setOrder={setOrder} setPerPage={setPerPage} />
-				</div>
-			</SearchBoxContainer>
+			<Grid container spacing={0}>
+				<Grid item xs={1.5}>
+					<SearchBoxSelect
+						value={region}
+						onChange={handleRegionChange}
+					>
+						<option value='all'>지역 선택</option>
+						<option value='수도권'>수도권</option>
+						<option value='강원권'>강원권</option>
+						<option value='충청권'>충청권</option>
+						<option value='경상권'>경상권</option>
+						<option value='전라권'>전라권</option>
+						<option value='제주권'>제주권</option>
+					</SearchBoxSelect>
+				</Grid>
+				<Grid item xs={10.5}>
+					<SearchBoxContainer>
+						<SearchInputContainer>
+							<SearchIcon width='24' fill='#5e5e5e' />
+							<SearchInput
+								ref={inputRef}
+								placeholder='검색어 입력 후 ENTER'
+								onKeyDown={onSearch}
+							/>
+							<SearchOptionButton onClick={toggleSearchOption}>
+								검색 옵션 {searchOption ? '닫기' : '열기'}
+							</SearchOptionButton>
+						</SearchInputContainer>
+
+						<div hidden={!searchOption}>
+							<SearchOption setName={setName} setArea={setArea} />
+						</div>
+					</SearchBoxContainer>
+				</Grid>
+			</Grid>
 			<SearchTagContainer>
 				{searchTags.map((tag, idx) => (
 					<SearchTag

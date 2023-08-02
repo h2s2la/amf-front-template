@@ -34,10 +34,10 @@ const Content = styled.div`
 	justify-content: center;
 	flex-direction: column;
 	text-align: center;
-	padding: 120px 32px 16px 32px;
+	padding: 0px 32px 1px 2px;
 `;
 
-const Hero = ({setQuery, setOrder, setOrientation, setPerPage}) => {
+const Hero = ({setName, setArea}) => {
 	return (
 		<Container>
 			<Content>
@@ -47,12 +47,7 @@ const Hero = ({setQuery, setOrder, setOrientation, setPerPage}) => {
 				<HeroSubtitle>
 					원하는 지역이나, 캠핑장 명으로 검색하세요{' '}
 				</HeroSubtitle>
-				<Search
-					setQuery={setQuery}
-					setOrder={setOrder}
-					setOrientation={setOrientation}
-					setPerPage={setPerPage}
-				/>
+				<Search setName={setName} setArea={setArea} />
 			</Content>
 		</Container>
 	);
