@@ -65,7 +65,7 @@ const Profile = () => {
 	const dispatch = useDispatch();
 
 	const user = useSelector((state) => state.user);
-	const {id, name, memberType} = user;
+	const {memberId, memberName, memberType} = user;
 
 	const handleLogout = async () => {
 		dispatch(logout());
@@ -119,9 +119,9 @@ const Profile = () => {
 					alignItems='center'
 					sx={{p: 0.5}}
 				>
-					{name != '' && (
+					{memberName != '' && (
 						<Typography variant='subtitle1'>
-							{memberType} {name}님 반갑습니다.
+							{memberType} {memberName}님 반갑습니다.
 						</Typography>
 					)}
 				</Stack>
@@ -178,13 +178,13 @@ const Profile = () => {
 													>
 														<Stack>
 															<Typography variant='h6'>
-																{name}
+																{memberName}
 															</Typography>
 															<Typography
 																variant='body2'
 																color='textSecondary'
 															>
-																{id}
+																{memberId}
 															</Typography>
 														</Stack>
 													</Stack>

@@ -53,8 +53,8 @@ const AuthLogin = () => {
 
 		dispatch(
 			successLogin({
-				id: result.id,
-				name: result.name,
+				memberId: result.id,
+				memberName: result.name,
 				memberType: result.memberType,
 			}),
 		);

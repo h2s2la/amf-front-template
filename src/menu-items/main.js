@@ -39,6 +39,27 @@ const main = {
 			],
 		},
 		{
+			id: 'mypage',
+			title: 'MyPage',
+			type: 'collapse',
+			icon: icons.CommentOutlined,
+			children: [
+				{
+					id: 'booking',
+					title: '예약내역 조회',
+					type: 'item',
+					url: '/bookingList',
+				},
+				{
+					id: 'review',
+					title: '후기관리',
+					type: 'item',
+					url: '/review',
+				},
+			],
+		},
+
+		{
 			id: 'board',
 			title: 'QnA',
 			type: 'collapse',

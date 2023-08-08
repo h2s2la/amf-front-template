@@ -3,8 +3,8 @@ import {createSlice} from '@reduxjs/toolkit';
 
 // initial state
 const initialState = {
-	id: '',
-	name: '',
+	memberId: '',
+	memberName: '',
 	memberType: '',
 };
 
@@ -15,14 +15,14 @@ const user = createSlice({
 	initialState,
 	reducers: {
 		login(state, action) {
-			state.id = action.payload.id;
-			state.name = action.payload.name;
+			state.memberId = action.payload.memberId;
+			state.memberName = action.payload.memberName;
 			state.memberType = action.payload.memberType;
 		},
 
 		logout(state) {
-			state.id = '';
-			state.name = '';
+			state.memberId = '';
+			state.memberName = '';
 			state.memberType = '';
 		},
 	},
