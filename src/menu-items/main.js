@@ -54,7 +54,7 @@ const main = {
 					id: 'review',
 					title: '후기관리',
 					type: 'item',
-					url: '/review',
+					url: '/reviewList',
 				},
 			],
 		},

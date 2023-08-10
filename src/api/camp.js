@@ -59,3 +59,6 @@ export const getCampsiteListFindByName = async (name) =>
 
 export const createCampsite = async (params) =>
 	axios.post(`${CAMPSITE_URL}`, params);
+
+export const getCampsite = async ({id}) =>
+	axios.get(`${CAMPSITE_URL}/detail/${id}`);

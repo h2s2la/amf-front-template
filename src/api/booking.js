@@ -2,7 +2,8 @@ import {default as axios} from 'utils/axiosHandler';
 
 const BOOKING_URL = 'http://localhost:8081/booking';
 
-// export const getBookingList = async (params) => axios.get(POST_URL, params);
+export const getBookingList = async (params) =>
+	axios.get(`${BOOKING_URL}/getList`, params);
 
 export const getBooking = async ({bookingId}) =>
 	axios.get(`${BOOKING_URL}/${bookingId}`);

@@ -40,15 +40,15 @@ const MypageRoutes = {
 			element: <DefaultPage />,
 		},
 		{
-			path: 'reivew',
+			path: 'reivewList',
 			element: <ReviewList />,
 		},
 		{
-			path: 'review/:id',
+			path: 'review/:bookingId',
 			element: <Review />,
 		},
 		{
-			path: 'booking',
+			path: 'bookingList',
 			element: <BookingList />,
 		},
 		// {

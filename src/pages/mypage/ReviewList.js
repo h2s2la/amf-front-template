@@ -1,29 +1,30 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Button, Grid} from '@mui/material';
+//import {Button, Grid} from '@mui/material';
+import {Grid} from '@mui/material';
 import DataTable from 'components/@extended/DataTable';
 import {useNavigate} from 'react-router-dom';
-import {getCampsiteList} from 'api/camp';
+import {getReviewList} from 'api/review';
 
-const CampsiteList = () => {
+const ReviewList = () => {
 	const navigate = useNavigate();
 
 	const [data, setData] = useState([]);
 	const [isLoading, setLoading] = useState(false);
 
 	useEffect(() => {
-		findCampsiteList();
+		findReiviewList();
 	}, []);
 
-	const findCampsiteList = async () => {
+	const findReiviewList = async () => {
 		setLoading(true);
-		const response = await getCampsiteList();
+		const response = await getReviewList();
 		setData(response);
 		setLoading(false);
 	};
 
-	const moveRegistCampsite = () => {
-		navigate(`/campsite/regist`);
-	};
+	// const moveRegistCampsite = () => {
+	// 	navigate(`/campsite/regist`);
+	// };
 
 	const rowClick = useCallback((e, row) => {
 		const campsiteId = row.id;
@@ -38,11 +39,11 @@ const CampsiteList = () => {
 				justifyContent='flex-end'
 				spacing={2}
 			>
-				<Grid item>
+				{/* <Grid item>
 					<Button variant='contained' onClick={moveRegistCampsite}>
 						등록하기
 					</Button>
-				</Grid>
+				</Grid> */}
 			</Grid>
 			<DataTable
 				columns={columns}
@@ -54,7 +55,7 @@ const CampsiteList = () => {
 		</>
 	);
 };
-export default CampsiteList;
+export default ReviewList;
 
 {
 	/* <div>
