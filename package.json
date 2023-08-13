@@ -1,6 +1,7 @@
 {
 	"name": "mantis-free-react-admin-template",
 	"version": "1.0.0",
+	"proxy": "http://camping-gaja-go.com",
 	"private": true,
 	"homepage": "https://h2s2la.github.io/",
 	"dependencies": {

@@ -12,6 +12,9 @@ const REVIEW_URL = 'http://localhost:8000/review';
 export const getReviewList = async ({id}) =>
 	axios.get(`${REVIEW_URL}/myreivew?user_id=${id}`);
 
+export const createReview = async (params) =>
+	axios.post(`${REVIEW_URL}`, params);
+
 // export const deleteCampground = async ({id}) =>
 // 	axios.delete(`${CAMPGROUND_URL}/${id}`);
 

@@ -34,7 +34,7 @@ const Booking = () => {
 	//const {enqueueSnackbar} = useSnackbar();
 	const {enqueueSnackbar} = useSnackbar();
 	const user = useSelector((state) => state.user);
-	const {memberId, memberName, memberType} = user;
+	const {memberId, memberName, memberType, memberGrade} = user;
 
 	const {id} = useParams();
 	const [data, setData] = useState([]);
@@ -111,6 +111,8 @@ const Booking = () => {
 				memberName +
 				', memberType : ' +
 				memberType +
+				', memberGrade : ' +
+				memberGrade +
 				', member정보 : ' +
 				JSON.stringify(memberRef.current) +
 				', campsite정보 : ' +

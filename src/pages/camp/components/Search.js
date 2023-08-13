@@ -32,28 +32,28 @@ const SearchBoxContainer = styled.div`
 // 	align-items: center;
 // `;
 
-const SearchBoxSelect = styled.select`
-	margin: 16px;
-	padding: 16px;
-	border-radius: 8px;
-	border-color: #ffffff;
-	box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-	font-size: 16px;
-	flex-direction: row;
-	width: 85%;
-	color: #5e5e5e;
-	height: fit-content;
-	display: flex;
-	align-items: center;
+// const SearchBoxSelect = styled.select`
+// 	margin: 16px;
+// 	padding: 16px;
+// 	border-radius: 8px;
+// 	border-color: #ffffff;
+// 	box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+// 	font-size: 16px;
+// 	flex-direction: row;
+// 	width: 85%;
+// 	color: #5e5e5e;
+// 	height: fit-content;
+// 	display: flex;
+// 	align-items: center;
 
-	& > option {
-		background-color: white;
-		color: black;
-	}
-	&:focus {
-		outline-color: #5e5e5e;
-	}
-`;
+// 	& > option {
+// 		background-color: white;
+// 		color: black;
+// 	}
+// 	&:focus {
+// 		outline-color: #5e5e5e;
+// 	}
+// `;
 
 const SearchInputContainer = styled.div`
 	display: flex;
@@ -86,11 +86,11 @@ const Search = ({setName, setArea}) => {
 	const [searchOption, setSearchOption] = useState(false);
 	const [searchTags, setSearchTags] = useState(initialSearchTags);
 	const inputRef = useRef(null);
-	const [region, setRegion] = React.useState('');
+	// const [region, setRegion] = React.useState('');
 
-	const handleRegionChange = (event) => {
-		setRegion(event.target.value);
-	};
+	// const handleRegionChange = (event) => {
+	// 	setRegion(event.target.value);
+	// };
 
 	const updateSearchInput = (value) => {
 		inputRef.current.value = value;
@@ -133,21 +133,7 @@ const Search = ({setName, setArea}) => {
 	return (
 		<>
 			<Grid container spacing={0}>
-				<Grid item xs={1.5}>
-					<SearchBoxSelect
-						value={region}
-						onChange={handleRegionChange}
-					>
-						<option value='all'>지역 선택</option>
-						<option value='수도권'>수도권</option>
-						<option value='강원권'>강원권</option>
-						<option value='충청권'>충청권</option>
-						<option value='경상권'>경상권</option>
-						<option value='전라권'>전라권</option>
-						<option value='제주권'>제주권</option>
-					</SearchBoxSelect>
-				</Grid>
-				<Grid item xs={10.5}>
+				<Grid item xs={12}>
 					<SearchBoxContainer>
 						<SearchInputContainer>
 							<SearchIcon width='24' fill='#5e5e5e' />

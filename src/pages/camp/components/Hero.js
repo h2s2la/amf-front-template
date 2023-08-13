@@ -37,17 +37,15 @@ const Content = styled.div`
 	padding: 0px 32px 1px 2px;
 `;
 
-const Hero = ({setName, setArea}) => {
+const Hero = ({setName}) => {
 	return (
 		<Container>
 			<Content>
 				<HeroTitle>
 					<HeroTitleLink href='./'>캠핑장 조회</HeroTitleLink>
 				</HeroTitle>
-				<HeroSubtitle>
-					원하는 지역이나, 캠핑장 명으로 검색하세요{' '}
-				</HeroSubtitle>
-				<Search setName={setName} setArea={setArea} />
+				<HeroSubtitle>캠핑장 명으로 검색하세요 </HeroSubtitle>
+				<Search setName={setName} />
 			</Content>
 		</Container>
 	);

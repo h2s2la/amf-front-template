@@ -1,8 +1,10 @@
 import {default as axios} from 'utils/axiosHandler';
 // import request from './request';
 
-const CAMPGROUND_URL = '/api/v1/camps';
-const CAMPSITE_URL = '/api/v1/campsites';
+// const CAMPGROUND_URL = '/campsite/ground';
+// const CAMPSITE_URL = '/campsite/site';
+const CAMPGROUND_URL = 'http://localhost:8080/campsite/ground';
+const CAMPSITE_URL = 'http://localhost:8080/campsite/site';
 
 //export const getCampgroundList = async (params) => axios.get(CAMP_URL, params);
 
@@ -10,7 +12,7 @@ export const getCampgroundList = async (params) =>
 	axios.get(CAMPGROUND_URL, params);
 
 export const getCampground = async ({id}) =>
-	axios.get(`${CAMPGROUND_URL}/${id}`);
+	axios.get(`${CAMPGROUND_URL}/detail/${id}`);
 
 export const deleteCampground = async ({id}) =>
 	axios.delete(`${CAMPGROUND_URL}/${id}`);
@@ -51,11 +53,13 @@ export const getCampingData = async (region, name) => {
 // };
 export default getCampgroundList;
 
-export const getCampsiteList = async (params) =>
-	axios.get(CAMPSITE_URL, params);
+export const getCampsiteList = async () => axios.get(`${CAMPSITE_URL}`);
 
-export const getCampsiteListFindByName = async (name) =>
-	axios.get(`${CAMPGROUND_URL}/name/${name}`);
+export const getCampsiteListFindByGround = async ({id}) =>
+	axios.get(`${CAMPSITE_URL}/${id}`);
+
+export const getCampsiteListFindByName = async (requireGrade, name) =>
+	axios.get(`${CAMPGROUND_URL}/${requireGrade}/${name}`);
 
 export const createCampsite = async (params) =>
 	axios.post(`${CAMPSITE_URL}`, params);

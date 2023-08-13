@@ -56,6 +56,7 @@ const AuthLogin = () => {
 				memberId: result.id,
 				memberName: result.name,
 				memberType: result.memberType,
+				memberGrade: result.grade,
 			}),
 		);
 		navigate('/');

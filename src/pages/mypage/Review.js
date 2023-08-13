@@ -10,7 +10,7 @@ import {
 	TextField,
 } from '@mui/material';
 import {Formik} from 'formik';
-import {createPost} from '../../api/board';
+import {createReview} from 'api/review';
 
 import {useSnackbar} from 'notistack';
 import {useSelector} from 'react-redux';
@@ -21,10 +21,14 @@ const Review = () => {
 	const {enqueueSnackbar} = useSnackbar();
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.user);
-	const {id, name} = user;
+	console.log('User object:', user);
+	const {memberId} = user;
 	const [data, setData] = useState([]);
 	//const [isLoading, setLoading] = useState(false);
-	const [value, setValue] = React.useState(5);
+	//const [clean_score, setCleanScore] = React.useState(5);
+	// const [punctual_score, setPunctualScore] = React.useState(5);
+	// const [manner_score, setMannerScore] = React.useState(5);
+	// const [flex_score, setFlexScore] = React.useState(5);
 	const {bookingId} = useParams();
 
 	const goBackList = () => {
@@ -44,10 +48,12 @@ const Review = () => {
 		//	console.log('@@@@@@@' + JSON.stringify(campsiteResult));
 		const bookingData = {
 			...response,
+			campId: response.site.campId,
 			campsiteThumImage: campsiteResult.campsiteThumImage,
 		};
 
 		setData(bookingData);
+		console.log('데이터 data.campId: ' + data.campId);
 		//	setLoading(false);
 	};
 	const moment = require('moment');
@@ -58,6 +64,9 @@ const Review = () => {
 	// 원하는 형식으로 변환
 	const formattedStartDate = moment(startDate).format('YYYY.MM.DD');
 	const formattedEndDate = moment(endDate).format('YYYY.MM.DD');
+	useEffect(() => {
+		console.log('데이터 data.campId: ' + data.campId);
+	}, [data.campId]); // data.campId 값이 변경될 때마다 실행됩니다.
 	return (
 		<>
 			<div
@@ -93,29 +102,47 @@ const Review = () => {
 			</div>
 
 			<Formik
+				key={data.campId}
 				initialValues={{
-					title: '',
-					content: '',
-					author: {
-						authorId: id,
-						authorName: name,
+					//	id: 0,
+					user_id: memberId,
+					booking_no: bookingId,
+					camp_id: data.campId,
+					type: 'Camper',
+					contents: {
+						punctual_score: 5,
+						punctual_comment: '',
+						clean_score: 5,
+						clean_comment: '',
+						manner_score: 5,
+						manner_comment: '',
+						flex_score: 5,
+						flex_comment: '',
+						total_comment: '',
 					},
+					photo1: '',
+					photo2: '',
+					photo3: '',
 					submit: null,
 				}}
 				validationSchema={Yup.object().shape({
-					title: Yup.string().max(255).required('제목은 필수입니다.'),
+					// total_comment: Yup.string()
+					// 	.max(255)
+					// 	.required('총평은 필수입니다.'),
 				})}
 				onSubmit={async (values, {setSubmitting}) => {
+					values.camp_id = data.campId;
+					console.log('후기 등록  values: ' + JSON.stringify(values));
 					setSubmitting(true);
 
-					await createPost(values);
+					await createReview(values);
 
 					setSubmitting(false);
 
 					enqueueSnackbar('게시글을 등록하였습니다.', {
 						variant: 'success',
 					});
-					goBackList();
+					//		goBackList();
 				}}
 			>
 				{({
@@ -124,6 +151,7 @@ const Review = () => {
 					handleChange,
 					handleSubmit,
 					isSubmitting,
+					setFieldValue,
 					touched,
 					values,
 				}) => (
@@ -132,13 +160,56 @@ const Review = () => {
 						<Grid container spacing={3}>
 							<Grid item xs={24} md={12}>
 								<Stack spacing={1}>
+									<b>사진첨부</b>
+									<TextField
+										fullWidth
+										error={Boolean(
+											touched.title && errors.title,
+										)}
+										id='photo1'
+										value={values.photo1}
+										name='photo1'
+										onChange={handleChange}
+										placeholder='첨부할 첫번째 사진의 URL을 등록해주세요 (선택)'
+										style={{backgroundColor: 'white'}}
+									/>
+									<TextField
+										fullWidth
+										error={Boolean(
+											touched.title && errors.title,
+										)}
+										id='photo2'
+										value={values.photo2}
+										name='photo2'
+										onChange={handleChange}
+										placeholder='첨부할 두번째 사진의 URL을 등록해주세요 (선택)'
+										style={{backgroundColor: 'white'}}
+									/>
+									<TextField
+										fullWidth
+										error={Boolean(
+											touched.title && errors.title,
+										)}
+										id='photo3'
+										value={values.photo3}
+										name='photo3'
+										onChange={handleChange}
+										placeholder='첨부할 세번째 사진의 URL을 등록해주세요 (선택)'
+										style={{backgroundColor: 'white'}}
+									/>
+								</Stack>
+								<br></br>
+								<Stack spacing={1}>
 									<b>청결도</b>
 
 									<Rating
 										name='cleanliness' // name 속성에 고유한 값을 지정
-										value={value}
+										value={values.contents.clean_score}
 										onChange={(event, newValue) => {
-											setValue(newValue);
+											setFieldValue(
+												'contents.clean_score',
+												newValue,
+											);
 										}}
 										precision={0.5} // 반개 단위로 선택 가능하게 함
 									/>
@@ -148,9 +219,9 @@ const Review = () => {
 										error={Boolean(
 											touched.title && errors.title,
 										)}
-										id='title'
-										value={values.title}
-										name='title'
+										id='clean_comment'
+										value={values.contents.clean_comment}
+										name='contents.clean_comment'
 										onChange={handleChange}
 										placeholder='청결도에 대한 한출평을 남겨주세요. (선택)'
 										style={{backgroundColor: 'white'}}
@@ -169,10 +240,13 @@ const Review = () => {
 									<b>전망/뷰</b>
 
 									<Rating
-										name='cleanliness' // name 속성에 고유한 값을 지정
-										value={value}
+										name='punctual' // name 속성에 고유한 값을 지정
+										value={values.contents.punctual_score}
 										onChange={(event, newValue) => {
-											setValue(newValue);
+											setFieldValue(
+												'contents.punctual_score',
+												newValue,
+											);
 										}}
 										precision={0.5} // 반개 단위로 선택 가능하게 함
 									/>
@@ -182,9 +256,9 @@ const Review = () => {
 										error={Boolean(
 											touched.title && errors.title,
 										)}
-										id='title'
-										value={values.title}
-										name='title'
+										id='punctual_comment'
+										value={values.contents.punctual_comment}
+										name='contents.punctual_comment'
 										onChange={handleChange}
 										placeholder='전망/뷰에 대한 한출평을 남겨주세요. (선택)'
 										style={{backgroundColor: 'white'}}
@@ -203,10 +277,13 @@ const Review = () => {
 									<b>친절</b>
 
 									<Rating
-										name='cleanliness' // name 속성에 고유한 값을 지정
-										value={value}
+										name='manner' // name 속성에 고유한 값을 지정
+										value={values.contents.manner_score}
 										onChange={(event, newValue) => {
-											setValue(newValue);
+											setFieldValue(
+												'contents.manner_score',
+												newValue,
+											);
 										}}
 										precision={0.5} // 반개 단위로 선택 가능하게 함
 									/>
@@ -216,9 +293,9 @@ const Review = () => {
 										error={Boolean(
 											touched.title && errors.title,
 										)}
-										id='title'
-										value={values.title}
-										name='title'
+										id='manner_comment'
+										value={values.contents.manner_comment}
+										name='contents.manner_comment'
 										onChange={handleChange}
 										placeholder='캠지기의 친절도에 대한 한출평을 남겨주세요. (선택)'
 										style={{backgroundColor: 'white'}}
@@ -237,10 +314,13 @@ const Review = () => {
 									<b>부대/편의시설</b>
 
 									<Rating
-										name='cleanliness' // name 속성에 고유한 값을 지정
-										value={value}
+										name='flex' // name 속성에 고유한 값을 지정
+										value={values.contents.flex_score}
 										onChange={(event, newValue) => {
-											setValue(newValue);
+											setFieldValue(
+												'contents.flex_score',
+												newValue,
+											);
 										}}
 										precision={0.5} // 반개 단위로 선택 가능하게 함
 									/>
@@ -250,9 +330,9 @@ const Review = () => {
 										error={Boolean(
 											touched.title && errors.title,
 										)}
-										id='title'
-										value={values.title}
-										name='title'
+										id='flex_comment'
+										value={values.contents.flex_comment}
+										name='contents.flex_comment'
 										onChange={handleChange}
 										placeholder='부대/편의 시설에 대한 한출평을 남겨주세요. (선택)'
 										style={{backgroundColor: 'white'}}
@@ -271,12 +351,12 @@ const Review = () => {
 								<Stack spacing={1}>
 									<b>총평</b>
 									<TextareaAutosize
-										id='content'
-										name='content'
+										id='cototal_commenttent'
+										name='contents.total_comment'
 										minRows={5}
 										aria-label='maximum height'
 										placeholder='다른 캠퍼들을 위해 캠핑장에 대한 경험을 솔직하게 공유해주세요:) (선택)'
-										value={values.content}
+										value={values.contents.total_comment}
 										style={customStyle}
 										onBlur={handleBlur}
 										onChange={handleChange}

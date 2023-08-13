@@ -62,13 +62,28 @@ const AuthRegister = () => {
 	const handleMemberTypeChange = (event) => {
 		const selectedMemberType = event.target.value;
 		setMemberType(selectedMemberType);
+		console.log('변경된 멤버타입 : ' + memberType);
 	};
 
+	// const [memberTypeCamper, setMemberTypeCamper] = useState('');
+	// const [memberTypeCamjigi, setMemberTypeCamjigi] = useState('');
+
+	// 라디오 버튼의 value가 바뀔 때마다 state를 업데이트하는 함수를 정의합니다.
+	// const handleMemberTypeCamperChange = (event) => {
+	// 	setMemberTypeCamper(event.target.value);
+
+	// 	setMemberType('Camper');
+	// };
+
+	// const handleMemberTypeCamjigiChange = (event) => {
+	// 	setMemberTypeCamjigi(event.target.value);
+
+	// 	setMemberType('Camjigi');
+	// };
 	return (
 		<>
 			<Formik
 				initialValues={{
-					memberType: 'Camper',
 					id: '',
 					name: '',
 					nickname: '',
@@ -102,11 +117,24 @@ const AuthRegister = () => {
 				onSubmit={async (values, {setErrors, setSubmitting}) => {
 					try {
 						setSubmitting(true);
+						values.memberType = memberType;
 
 						const response = await createMember(values);
 
 						if (response === -1) {
 							enqueueSnackbar('중복된 ID입니다.', {
+								variant: 'error',
+							});
+							setErrors({submit: '회원가입 실패'});
+							return;
+						} else if (response === -2) {
+							enqueueSnackbar('이미가입된 전화번호입니다.', {
+								variant: 'error',
+							});
+							setErrors({submit: '회원가입 실패'});
+							return;
+						} else if (response === -3) {
+							enqueueSnackbar('이미가입된 사업자번호입니다.', {
 								variant: 'error',
 							});
 							setErrors({submit: '회원가입 실패'});
@@ -149,10 +177,11 @@ const AuthRegister = () => {
 									<FormControl component='fieldset'>
 										<RadioGroup
 											name='memberType'
-											value={memberType}
+											value={memberType} // Set the value to the local state memberType
 											onChange={handleMemberTypeChange}
 										>
 											<Grid item xs={6}>
+												{/* 라디오 버튼에 서로 다른 name 속성을 부여하고, value와 onChange 속성을 state와 함수로 설정합니다. */}
 												<FormControlLabel
 													value='Camper'
 													control={<Radio />}
@@ -265,7 +294,7 @@ const AuthRegister = () => {
 									)}
 								</Stack>
 							</Grid>
-							{memberType == 'Camjigi' && (
+							{memberType === 'Camjigi' && (
 								<Grid item xs={12}>
 									<Stack spacing={1}>
 										<>

@@ -1,7 +1,8 @@
 //import React, {useCallback, useEffect, useState} from 'react';
 import React, {useEffect, useState} from 'react';
 import moment from 'moment';
-import {Button, Grid} from '@mui/material';
+//import {Button, Grid} from '@mui/material';
+import {Button} from '@mui/material';
 import DataTable from 'components/@extended/DataTable';
 import {useNavigate} from 'react-router-dom';
 import {getBookingList} from 'api/booking';
@@ -258,9 +259,9 @@ const BookingList = () => {
 		setLoading(false);
 	};
 
-	const moveRegistCampsite = () => {
-		navigate(`/campsite/regist`);
-	};
+	// const moveRegistCampsite = () => {
+	// 	navigate(`/campsite/regist`);
+	// };
 
 	// const rowClick = useCallback((e, row) => {
 	// 	const campsiteId = row.id;
@@ -269,7 +270,7 @@ const BookingList = () => {
 
 	return (
 		<>
-			<Grid
+			{/* <Grid
 				container
 				direction='row'
 				justifyContent='flex-end'
@@ -280,7 +281,7 @@ const BookingList = () => {
 						등록하기
 					</Button>
 				</Grid>
-			</Grid>
+			</Grid> */}
 			<DataTable
 				columns={columns}
 				rows={data}
