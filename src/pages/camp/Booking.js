@@ -9,7 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import {useSelector} from 'react-redux';
 import {getCampground} from 'api/camp';
 import {getMember} from 'api/authentication';
-import {getCampsiteList} from 'api/camp';
+import {getCampsiteListFindByGround} from 'api/camp';
 import {useSnackbar} from 'notistack';
 import {createBooking} from 'api/booking';
 import {
@@ -69,7 +69,7 @@ const Booking = () => {
 		console.log('member 정보 : ' + JSON.stringify(member));
 		const result = await getCampground({id});
 		setCampground(result);
-		const response = await getCampsiteList({id});
+		const response = await getCampsiteListFindByGround({id});
 		setData(response);
 		setLoading(false);
 	};
@@ -196,7 +196,7 @@ const Booking = () => {
 					values.memberId = member.id; //
 					values.memberName = member.name; //
 					values.memberCellNumber = member.cellNumber; //
-					values.memberGrade = member.memberGrade; //?
+					values.memberGrade = member.grade; //
 					values.campId = campground.id; //
 					values.campName = campground.name; //
 					values.siteId = campsite.id; //

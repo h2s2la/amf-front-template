@@ -55,6 +55,7 @@ const AuthLogin = () => {
 			successLogin({
 				memberId: result.id,
 				memberName: result.name,
+				memberNickName: result.nickName,
 				memberType: result.memberType,
 				memberGrade: result.grade,
 			}),

@@ -22,7 +22,7 @@ const Review = () => {
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.user);
 	console.log('User object:', user);
-	const {memberId} = user;
+	const {memberId, memberName, memberNickName} = user;
 	const [data, setData] = useState([]);
 	//const [isLoading, setLoading] = useState(false);
 	//const [clean_score, setCleanScore] = React.useState(5);
@@ -106,7 +106,9 @@ const Review = () => {
 				initialValues={{
 					//	id: 0,
 					user_id: memberId,
-					booking_no: bookingId,
+					user_name: memberName,
+					user_nickname: memberNickName,
+					booking_no: parseInt(bookingId),
 					camp_id: data.campId,
 					type: 'Camper',
 					contents: {
@@ -119,6 +121,10 @@ const Review = () => {
 						flex_score: 5,
 						flex_comment: '',
 						total_comment: '',
+					},
+					target_info: {
+						camper_name: memberName,
+						camper_nickname: memberNickName,
 					},
 					photo1: '',
 					photo2: '',

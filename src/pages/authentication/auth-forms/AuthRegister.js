@@ -183,14 +183,14 @@ const AuthRegister = () => {
 											<Grid item xs={6}>
 												{/* 라디오 버튼에 서로 다른 name 속성을 부여하고, value와 onChange 속성을 state와 함수로 설정합니다. */}
 												<FormControlLabel
-													value='Camper'
+													value='camper'
 													control={<Radio />}
 													label='캠퍼'
 												/>
 											</Grid>
 											<Grid item xs={6}>
 												<FormControlLabel
-													value='Camjigi'
+													value='camjigi'
 													control={<Radio />}
 													label='캠지기'
 												/>

@@ -1,13 +1,11 @@
 import {default as axios} from 'utils/axiosHandler';
 // import request from './request';
 
+/*로컬*/
 const REVIEW_URL = 'http://localhost:8000/review';
-//const CAMPSITE_URL = '/api/v1/campsites';
 
-//export const getCampgroundList = async (params) => axios.get(CAMP_URL, params);
-
-// export const getCampgroundList = async (params) =>
-// 	axios.get(CAMPGROUND_URL, params);
+/*웹서버*/
+// const REVIEW_URL = '/review';
 
 export const getReviewList = async ({id}) =>
 	axios.get(`${REVIEW_URL}/myreivew?user_id=${id}`);

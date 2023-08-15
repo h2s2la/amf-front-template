@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import Hero from './components/Hero';
 import ResultContainer from './components/ResultContainer';
 //import Footer from './components/Footer';
-import {getCampgroundList} from 'api/camp';
+import {getCampsiteListFindByRequireGrade} from 'api/camp';
 import {getCampsiteListFindByName} from 'api/camp';
 
 import './App.css';
@@ -54,7 +54,7 @@ function CampgroundList() {
 
 	const findCampgroundList = async () => {
 		//	setLoading(true);
-		const response = await getCampgroundList();
+		const response = await getCampsiteListFindByRequireGrade(memberGrade);
 		setData(response);
 		//	setLoading(false);
 	};

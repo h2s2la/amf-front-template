@@ -1,10 +1,13 @@
 import {default as axios} from 'utils/axiosHandler';
 // import request from './request';
 
-// const CAMPGROUND_URL = '/campsite/ground';
-// const CAMPSITE_URL = '/campsite/site';
+/*로컬*/
 const CAMPGROUND_URL = 'http://localhost:8080/campsite/ground';
 const CAMPSITE_URL = 'http://localhost:8080/campsite/site';
+
+/*웹서버*/
+// const CAMPGROUND_URL = '/campsite/ground';
+// const CAMPSITE_URL = '/campsite/site';
 
 //export const getCampgroundList = async (params) => axios.get(CAMP_URL, params);
 
@@ -60,6 +63,9 @@ export const getCampsiteListFindByGround = async ({id}) =>
 
 export const getCampsiteListFindByName = async (requireGrade, name) =>
 	axios.get(`${CAMPGROUND_URL}/${requireGrade}/${name}`);
+
+export const getCampsiteListFindByRequireGrade = async (requireGrade) =>
+	axios.get(`${CAMPGROUND_URL}/${requireGrade}`);
 
 export const createCampsite = async (params) =>
 	axios.post(`${CAMPSITE_URL}`, params);

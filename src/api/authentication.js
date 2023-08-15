@@ -1,11 +1,14 @@
 import {default as axios} from 'utils/axiosHandler';
 
+/*로컬*/
 const MEMBERS_URL = 'http://localhost:8082/members';
 const SIGNUP_URL = 'http://localhost:8082/signup';
 const LOGIN_URL = 'http://localhost:8082/login';
-// const MEMBERS_URL = 'members';
-// const SIGNUP_URL = 'http://camping-gaja-go.com/signup';
-// const LOGIN_URL = 'http://camping-gaja-go.com/login';
+
+/*웹서버*/
+// const MEMBERS_URL = '/members';
+// const SIGNUP_URL = '/signup';
+// const LOGIN_URL = '/login';
 
 //axios.defaults.withCredentials = true;
 
