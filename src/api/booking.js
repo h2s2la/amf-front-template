@@ -1,13 +1,15 @@
 import {default as axios} from 'utils/axiosHandler';
 
 /*로컬*/
-const BOOKING_URL = 'http://localhost:8081/booking';
+// const BOOKING_URL = 'http://localhost:8081/booking';
 
 /*웹서버*/
-// const BOOKING_URL = '/booking';
+const BOOKING_URL = '/booking';
 
 export const getBookingList = async (params) =>
-	axios.get(`${BOOKING_URL}/getList`, params);
+	axios.get(`${BOOKING_URL}/getList`, params, {
+		withCredentials: true,
+	});
 
 export const getBooking = async ({bookingId}) =>
 	axios.get(`${BOOKING_URL}/${bookingId}`);

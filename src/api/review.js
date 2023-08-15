@@ -2,13 +2,15 @@ import {default as axios} from 'utils/axiosHandler';
 // import request from './request';
 
 /*로컬*/
-const REVIEW_URL = 'http://localhost:8000/review';
+// const REVIEW_URL = 'http://localhost:8000/review';
 
 /*웹서버*/
-// const REVIEW_URL = '/review';
+const REVIEW_URL = '/review';
 
 export const getReviewList = async ({id}) =>
-	axios.get(`${REVIEW_URL}/myreivew?user_id=${id}`);
+	axios.get(`${REVIEW_URL}/myreivew?user_id=${id}`, {
+		withCredentials: true,
+	});
 
 export const createReview = async (params) =>
 	axios.post(`${REVIEW_URL}`, params);
