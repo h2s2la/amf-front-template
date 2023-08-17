@@ -57,14 +57,6 @@ const CampRoutes = {
 			path: 'bookingComplete/:bookingId',
 			element: <BookingComplete />,
 		},
-		// {
-		// 	path: 'board',
-		// 	element: <Board />,
-		// },
-		// {
-		// 	path: 'post/:id',
-		// 	element: <Post />,
-		// },
 		{
 			path: 'campground/regist',
 			element: <Createcampground />,
@@ -77,10 +69,6 @@ const CampRoutes = {
 			path: 'campsite/regist',
 			element: <Createcampsite />,
 		},
-		// {
-		// 	path: 'post/update',
-		// 	element: <UpdatePost />,
-		// },
 	],
 };
 

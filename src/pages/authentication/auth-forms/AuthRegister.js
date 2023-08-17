@@ -294,7 +294,7 @@ const AuthRegister = () => {
 									)}
 								</Stack>
 							</Grid>
-							{memberType === 'Camjigi' && (
+							{memberType === 'camjigi' && (
 								<Grid item xs={12}>
 									<Stack spacing={1}>
 										<>

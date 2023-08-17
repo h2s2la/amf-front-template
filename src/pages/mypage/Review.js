@@ -42,13 +42,13 @@ const Review = () => {
 		//	setLoading(true);
 
 		const response = await getBooking({bookingId});
-		console.log(response.site);
-		const campsiteResult = await getCampsite({id: response.site.siteId});
+		console.log(response);
+		const campsiteResult = await getCampsite({id: response.siteId});
 
 		//	console.log('@@@@@@@' + JSON.stringify(campsiteResult));
 		const bookingData = {
 			...response,
-			campId: response.site.campId,
+			campId: response.campId,
 			campsiteThumImage: campsiteResult.campsiteThumImage,
 		};
 
@@ -92,9 +92,9 @@ const Review = () => {
 					}}
 				>
 					{' '}
-					{data.site && <b>{data.site.campName}</b>}
+					{data && <b>{data.campName}</b>}
 					<br></br>
-					{data.site && <>{data.site.siteName}</>}
+					{data && <>{data.siteName}</>}
 					<br></br>
 					<br></br>
 					{formattedStartDate} ~ {formattedEndDate}

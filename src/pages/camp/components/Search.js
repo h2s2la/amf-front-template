@@ -143,7 +143,7 @@ const Search = ({setName, setArea}) => {
 								onKeyDown={onSearch}
 							/>
 							<SearchOptionButton onClick={toggleSearchOption}>
-								검색 옵션 {searchOption ? '닫기' : '열기'}
+								검색 옵션
 							</SearchOptionButton>
 						</SearchInputContainer>
 

@@ -3,7 +3,6 @@
 	"version": "1.0.0",
 	"proxy": "http://camping-gaja-go.com",
 	"private": true,
-	"homepage": "https://h2s2la.github.io/",
 	"dependencies": {
 		"@ant-design/colors": "^4.0.0-alpha.0",
 		"@ant-design/icons": "^4.0.0-rc.0",

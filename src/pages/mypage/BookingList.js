@@ -1,5 +1,6 @@
 //import React, {useCallback, useEffect, useState} from 'react';
 import React, {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
 import moment from 'moment';
 //import {Button, Grid} from '@mui/material';
 import {Button} from '@mui/material';
@@ -13,6 +14,8 @@ const BookingList = () => {
 
 	const [data, setData] = useState([]);
 	const [isLoading, setLoading] = useState(false);
+	const user = useSelector((state) => state.user);
+	const {memberId} = user;
 
 	// render 함수 정의
 	const render = (rowData) => {
@@ -48,10 +51,15 @@ const BookingList = () => {
 		// 밀리초 값을 일 단위로 변환
 		const diffTime = endTime - startTime; // 두 날짜의 밀리초 차이
 		const diffDay = diffTime / (1000 * 60 * 60 * 24); // 밀리초를 일 단위로 나눔
+
+		const currentDate = new Date(); // 현재 일자
+		const diff = currentDate.getTime() - endTime; // 두 날짜의 차이
+		const days = Math.floor(diff / (1000 * 60 * 60 * 24)); // 일 단위로 변환
+
 		// 버튼 클릭 시 실행할 함수 정의
 		const handleClick = () => {
 			// /review/{rowData.id}로 이동
-			navigate(`/review/${rowData.id}`);
+			navigate(`/review/${rowData.bookingId}`);
 		};
 		return (
 			<>
@@ -137,9 +145,9 @@ const BookingList = () => {
 							}}
 						>
 							{' '}
-							<b>{rowData.site.campName}</b>
+							<b>{rowData.campName}</b>
 							<br></br>
-							{rowData.site.siteName}
+							{rowData.siteName}
 							<br></br>
 							<br></br>
 							예약번호 {rowData.id}
@@ -208,20 +216,35 @@ const BookingList = () => {
 							<b>{diffDay + 1}</b>
 						</div>
 					</div>
-
-					<Button
-						disableElevation
-						//		disabled={isSubmitting}
-						fullWidth
-						size='large'
-						type='submit'
-						variant='contained'
-						color='primary'
-						margin='7px' // div 사이에 10픽셀의 간격 주기
-						onClick={handleClick} // onClick 속성에 함수 할당
-					>
-						후기작성하기
-					</Button>
+					{days >= 0 && days <= 10 && (
+						<Button
+							disableElevation
+							//		disabled={isSubmitting}
+							fullWidth
+							size='large'
+							type='submit'
+							variant='contained'
+							color='primary'
+							margin='7px' // div 사이에 10픽셀의 간격 주기
+							onClick={handleClick} // onClick 속성에 함수 할당
+						>
+							후기 작성하기
+						</Button>
+					)}
+					{days > 10 && (
+						<Button
+							disableElevation
+							//		disabled={isSubmitting}
+							fullWidth
+							size='large'
+							type='submit'
+							variant='contained'
+							color='primary'
+							margin='7px' // div 사이에 10픽셀의 간격 주기
+						>
+							후기 작성 기한 만료
+						</Button>
+					)}
 					<div>{rowData.address}</div>
 				</div>
 			</>
@@ -239,11 +262,13 @@ const BookingList = () => {
 
 	useEffect(() => {
 		findBookingList();
-	}, []);
+	}, [memberId]);
 
 	const findBookingList = async () => {
 		setLoading(true);
-		const response = await getBookingList();
+
+		console.log('내 예약 리스트 : ' + memberId);
+		const response = await getBookingList({memberId});
 		//setData(response);
 		const campsiteResult = await getCampsiteList();
 		const campsiteMap = {};
@@ -252,7 +277,7 @@ const BookingList = () => {
 		}
 		const data = response.map((item) => ({
 			...item,
-			campsiteThumImage: campsiteMap[item.site.siteId],
+			campsiteThumImage: campsiteMap[item.siteId],
 		}));
 
 		setData(data);

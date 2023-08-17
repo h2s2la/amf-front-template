@@ -11,7 +11,7 @@ const AuthLogin = Loadable(lazy(() => import('pages/authentication/Login')));
 const AuthRegister = Loadable(
 	lazy(() => import('pages/authentication/Register')),
 );
-
+//const basename = process.env.PUBLIC_URL;
 // ==============================|| AUTH ROUTING ||============================== //
 
 const LoginRoutes = {
@@ -28,5 +28,11 @@ const LoginRoutes = {
 		},
 	],
 };
+// const router = createBrowserRouter(LoginRoutes, {basename: basename});
 
+// root.render(
+// 	// <React.StrictMode>
+// 	<RouterProvider router={router} />
+// 	// </React.StrictMode>
+//   );
 export default LoginRoutes;

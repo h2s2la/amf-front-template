@@ -20,7 +20,8 @@ const Container = styled.div`
 `;
 
 function CampgroundList() {
-	const [data, setData] = useState();
+	const [data, setData] = useState(null);
+	const [loading, setLoading] = useState(true); // Introduce a loading state
 	const [name, setName] = useState('');
 	//	const [area, setArea] = useState('all');
 
@@ -32,7 +33,20 @@ function CampgroundList() {
 		console.log('검색조건 없음');
 		findCampgroundList();
 	}, []);
-
+	const findCampgroundList = async () => {
+		setLoading(true);
+		try {
+			const response = await getCampsiteListFindByRequireGrade(
+				memberGrade,
+			);
+			console.log('검색조건 없음 : ' + JSON.stringify(response));
+			setData(response);
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		} finally {
+			setLoading(false);
+		}
+	};
 	useEffect(() => {
 		console.log(
 			'검색조건 있음 등급은 : ' +
@@ -45,20 +59,34 @@ function CampgroundList() {
 				memberType,
 		);
 
-		const fetch = async () => {
-			const data = await getCampsiteListFindByName(memberGrade, name);
-			setData(data);
+		const fetchData = async () => {
+			setLoading(true); // Start loading
+			try {
+				let fetchedData;
+				if (name === null || name === '') {
+					fetchedData = await getCampsiteListFindByRequireGrade(
+						memberGrade,
+					);
+					console.log('네임 널' + JSON.stringify(fetchedData));
+				} else {
+					fetchedData = await getCampsiteListFindByName(
+						memberGrade,
+						name,
+					);
+					console.log('네임 널아님' + JSON.stringify(fetchedData));
+				}
+				setData(fetchedData);
+				setLoading(false); // Finished loading
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			} finally {
+				setLoading(false);
+			}
 		};
-		fetch();
-	}, [name]);
+		fetchData();
+	}, [name, memberGrade]);
 
-	const findCampgroundList = async () => {
-		//	setLoading(true);
-		const response = await getCampsiteListFindByRequireGrade(memberGrade);
-		setData(response);
-		//	setLoading(false);
-	};
-
+	console.log('Data:', data); // Check the fetched data in the console
 	return (
 		<>
 			<Container>
@@ -68,14 +96,9 @@ function CampgroundList() {
 					//	setOrientation={setOrientation}
 					//	setPerPage={setPerPage}
 				/>
-				<ResultContainer
-					data={data}
-					name={name}
-					//	area={area}
-					//	setPage={setPage}
-					//	numOfPages={numOfPages}
-				/>
-				{data == null && (
+				{!loading ? (
+					<ResultContainer data={data} name={name} />
+				) : (
 					<div ref={target}>
 						<EmptyResult isLoading={false} />
 					</div>
