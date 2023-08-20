@@ -1,4 +1,5 @@
-import React from 'react';
+//import React from 'react';
+import React, {useState, useEffect} from 'react';
 import * as Yup from 'yup';
 import {
 	Button,
@@ -11,6 +12,7 @@ import {
 } from '@mui/material';
 import {Formik} from 'formik';
 import {createCampsite} from '../../api/camp';
+import {getMyCampground} from '../../api/camp';
 import {useNavigate} from 'react-router-dom';
 import {useSnackbar} from 'notistack';
 import {useSelector} from 'react-redux';
@@ -20,22 +22,39 @@ const CreateCampsite = () => {
 	const {enqueueSnackbar} = useSnackbar();
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.user);
-	const {id, name} = user;
-
+	const {memberId} = user;
+	const [campground, setCampground] = useState([]);
 	const goBackList = () => {
 		navigate(`/campsite`);
+	};
+
+	useEffect(() => {
+		findMyCampground();
+	}, [memberId]);
+
+	const findMyCampground = async () => {
+		//	setLoading(true);
+
+		console.log('member 정보 : ' + JSON.stringify(memberId));
+		const result = await getMyCampground({id: memberId});
+		console.log('1캠핑장 Data : ' + JSON.stringify(result));
+		setCampground(result);
+		console.log('2캠핑장 Data : ' + JSON.stringify(campground));
 	};
 
 	return (
 		<>
 			<Formik
 				initialValues={{
+					campId: campground.id,
 					campsiteName: '',
-					des: '',
-					author: {
-						authorId: id,
-						authorName: name,
-					},
+					campsiteInfo: '',
+					peopleLimit: 10,
+					price: 0,
+					useYn: 'Y',
+					weekendExtraCharge: 0,
+					campsiteThumImage: '',
+					regUser: memberId,
 					submit: null,
 				}}
 				validationSchema={Yup.object().shape({
@@ -103,7 +122,7 @@ const CreateCampsite = () => {
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
-								<InputLabel htmlFor='usageFee-signup' required>
+								<InputLabel htmlFor='price-signup' required>
 									{' '}
 									이용 요금
 								</InputLabel>
@@ -113,28 +132,28 @@ const CreateCampsite = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.usageFee && errors.usageFee,
+											touched.price && errors.price,
 										)}
-										id='usageFee'
-										value={values.usageFee}
-										name='usageFee'
+										id='price'
+										value={values.price}
+										name='price'
 										onChange={handleChange}
 										placeholder='숫자만 입력해주세요'
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.usageFee && errors.usageFee && (
+									{touched.price && errors.price && (
 										<FormHelperText
 											error
-											id='helper-text-usageFee-signup'
+											id='helper-text-price-signup'
 										>
-											{errors.usageFee}
+											{errors.price}
 										</FormHelperText>
 									)}
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
 								<InputLabel
-									htmlFor='premiumRate-signup'
+									htmlFor='weekendExtraCharge-signup'
 									required
 								>
 									{' '}
@@ -147,24 +166,25 @@ const CreateCampsite = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.premiumRate &&
-												errors.premiumRate,
+											touched.weekendExtraCharge &&
+												errors.weekendExtraCharge,
 										)}
-										id='premiumRate'
-										value={values.premiumRate}
-										name='premiumRate'
+										id='weekendExtraCharge'
+										value={values.weekendExtraCharge}
+										name='weekendExtraCharge'
 										onChange={handleChange}
 										placeholder='숫자만 입력해주세요'
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.premiumRate && errors.premiumRate && (
-										<FormHelperText
-											error
-											id='helper-text-premiumRate-signup'
-										>
-											{errors.premiumRate}
-										</FormHelperText>
-									)}
+									{touched.weekendExtraCharge &&
+										errors.weekendExtraCharge && (
+											<FormHelperText
+												error
+												id='helper-text-weekendExtraCharge-signup'
+											>
+												{errors.weekendExtraCharge}
+											</FormHelperText>
+										)}
 								</Stack>
 							</Grid>
 							<Grid item xs={1}>
@@ -175,7 +195,7 @@ const CreateCampsite = () => {
 							</Grid>
 							<Grid item xs={2}>
 								<InputLabel
-									htmlFor='limitedNumber-signup'
+									htmlFor='peopleLimit-signup'
 									required
 								>
 									{' '}
@@ -187,31 +207,30 @@ const CreateCampsite = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.limitedNumber &&
-												errors.limitedNumber,
+											touched.peopleLimit &&
+												errors.peopleLimit,
 										)}
-										id='limitedNumber'
-										value={values.limitedNumber}
-										name='limitedNumber'
+										id='peopleLimit'
+										value={values.peopleLimit}
+										name='peopleLimit'
 										onChange={handleChange}
 										placeholder='숫자만 입력해 주세요'
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.limitedNumber &&
-										errors.limitedNumber && (
-											<FormHelperText
-												error
-												id='helper-text-limitedNumber-signup'
-											>
-												{errors.limitedNumber}
-											</FormHelperText>
-										)}
+									{touched.peopleLimit && errors.peopleLimit && (
+										<FormHelperText
+											error
+											id='helper-text-peopleLimit-signup'
+										>
+											{errors.peopleLimit}
+										</FormHelperText>
+									)}
 								</Stack>
 							</Grid>
 							<Grid item xs={6}></Grid>
 							<Grid item xs={2}>
 								<InputLabel
-									htmlFor='introduction-signup'
+									htmlFor='campsiteInfo-signup'
 									required
 								>
 									{' '}
@@ -221,12 +240,12 @@ const CreateCampsite = () => {
 							<Grid item xs={10}>
 								<Stack spacing={1}>
 									<TextareaAutosize
-										id='introduction'
-										name='introduction'
+										id='campsiteInfo'
+										name='campsiteInfo'
 										minRows={5}
 										aria-label='maximum height'
 										placeholder='사이트 소개를 입력해주세요'
-										value={values.introduction}
+										value={values.campsiteInfo}
 										style={customStyle}
 										onBlur={handleBlur}
 										onChange={handleChange}
@@ -234,7 +253,10 @@ const CreateCampsite = () => {
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
-								<InputLabel htmlFor='image-signup' required>
+								<InputLabel
+									htmlFor='campsiteThumImage-signup'
+									required
+								>
 									{' '}
 									대표 이미지
 								</InputLabel>
@@ -244,23 +266,25 @@ const CreateCampsite = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.image && errors.image,
+											touched.campsiteThumImage &&
+												errors.campsiteThumImage,
 										)}
-										id='image'
-										value={values.image}
-										name='image'
+										id='campsiteThumImage'
+										value={values.campsiteThumImage}
+										name='campsiteThumImage'
 										onChange={handleChange}
 										placeholder='이미지 URL을 입력해주세요'
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.image && errors.image && (
-										<FormHelperText
-											error
-											id='helper-text-image-signup'
-										>
-											{errors.image}
-										</FormHelperText>
-									)}
+									{touched.campsiteThumImage &&
+										errors.campsiteThumImage && (
+											<FormHelperText
+												error
+												id='helper-text-campsiteThumImage-signup'
+											>
+												{errors.campsiteThumImage}
+											</FormHelperText>
+										)}
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>

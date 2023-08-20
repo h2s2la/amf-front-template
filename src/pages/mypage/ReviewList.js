@@ -1,34 +1,60 @@
 import React, {useCallback, useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
 //import {Button, Grid} from '@mui/material';
 import {Grid} from '@mui/material';
 import DataTable from 'components/@extended/DataTable';
 import {useNavigate} from 'react-router-dom';
 import {getReviewList} from 'api/review';
+import {getBookingList} from 'api/booking';
 
 const ReviewList = () => {
 	const navigate = useNavigate();
+
+	const user = useSelector((state) => state.user);
+	const {memberId} = user;
 
 	const [data, setData] = useState([]);
 	const [isLoading, setLoading] = useState(false);
 
 	useEffect(() => {
-		findReiviewList();
-	}, []);
+		findReviewList();
+	}, [memberId]);
 
-	const findReiviewList = async () => {
+	const findReviewList = async () => {
 		setLoading(true);
-		const response = await getReviewList();
-		setData(response);
+		const reviewResponse = await getReviewList({memberId});
+		const bookingResponse = await getBookingList({memberId});
+
+		console.log('리뷰 응답 : ' + JSON.stringify(reviewResponse));
+		console.log('부킹 응답 : ' + JSON.stringify(bookingResponse));
+
+		const bookingMap = {};
+		for (let booking of bookingResponse) {
+			bookingMap[booking.bookingId] = {
+				campName: booking.campName,
+				siteName: booking.siteName,
+				startDate: booking.startDate,
+				endDate: booking.endDate,
+			};
+			// bookingMap[booking.bookingId] = booking.campName;
+		}
+		const data = reviewResponse.map((item) => ({
+			...item,
+			...bookingMap[item.booking_id],
+			//campName: bookingMap[item.booking_id],
+			//campName: bookingMap[item.booking_id].campName,
+			// siteName: bookingMap[item.booking_id].siteName,
+			// startDate: bookingMap[item.booking_id].startDate,
+			// endDate: bookingMap[item.booking_id].endDate,
+		}));
+
+		setData(data);
 		setLoading(false);
 	};
 
-	// const moveRegistCampsite = () => {
-	// 	navigate(`/campsite/regist`);
-	// };
-
 	const rowClick = useCallback((e, row) => {
-		const campsiteId = row.id;
-		navigate(`/campsite/${campsiteId}`);
+		const review_id = row.review_id;
+		navigate(`/review/${review_id}`);
 	}, []);
 
 	return (
@@ -39,11 +65,11 @@ const ReviewList = () => {
 				justifyContent='flex-end'
 				spacing={2}
 			>
-				{/* <Grid item>
-					<Button variant='contained' onClick={moveRegistCampsite}>
-						등록하기
-					</Button>
-				</Grid> */}
+				<Grid item>
+					{/* <Button variant='contained' onClick={moveCreatePostPage}>
+						글쓰기
+					</Button> */}
+				</Grid>
 			</Grid>
 			<DataTable
 				columns={columns}
@@ -57,38 +83,35 @@ const ReviewList = () => {
 };
 export default ReviewList;
 
-{
-	/* <div>
-<img src={companyLogo} alt="BigCo Inc. logo"/>
-</div> */
-}
-
 const columns = [
 	{
-		id: 'image',
-		label: '대표이미지',
+		id: 'campName',
+		label: '캠핑장',
+		width: 80,
+		align: 'left',
+	},
+	{
+		id: 'siteName',
+		label: '사이트 정보',
+		width: 90,
+		align: 'left',
+	},
+	{
+		id: 'startDate',
+		label: '방문일자(시작일)',
 		width: 60,
 		align: 'left',
-		render: (rowData) => (
-			<img
-				src={rowData.campsiteThumImage}
-				alt='campsite'
-				height='150'
-				//	width='150'
-				style={{objectFit: 'cover'}}
-			/>
-		),
 	},
 	{
-		id: 'campsiteName',
-		label: '사이트 이름',
-		width: 300,
+		id: 'endDate',
+		label: '방문일자(종료일)',
+		width: 60,
 		align: 'left',
 	},
 	{
-		id: 'price',
-		label: '이용 요금(원)',
-		width: 100,
+		id: 'create_dt',
+		label: '작성일',
+		width: 60,
 		align: 'left',
 	},
 ];

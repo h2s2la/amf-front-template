@@ -1,6 +1,9 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-
+import menuItem from 'menu-items';
+import logout from '../../../menu-items/logout';
+import camper from '../../../menu-items/camper';
+import campsite from '../../../menu-items/campsite';
 // material-ui
 import {
 	Button,
@@ -12,45 +15,44 @@ import {
 	OutlinedInput,
 	Stack,
 } from '@mui/material';
-
 // third party
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 import {useSnackbar} from 'notistack';
-
 // project import
-
 // assets
 import {EyeOutlined, EyeInvisibleOutlined} from '@ant-design/icons';
-
 //============ test ============
-
 import {login} from 'api/authentication';
 import {useDispatch} from 'react-redux';
 import {login as successLogin} from 'store/reducers/user';
-
 const AuthLogin = () => {
 	const {enqueueSnackbar} = useSnackbar();
 	const navigate = useNavigate();
 	const [showPassword, setShowPassword] = React.useState(false);
 	const dispatch = useDispatch();
-
 	const handleClickShowPassword = () => {
 		setShowPassword(!showPassword);
 	};
-
 	const handleMouseDownPassword = (event) => {
 		event.preventDefault();
 	};
-
 	const memberLogin = async (values) => {
 		const result = await login(values);
 		if (!result.login) {
 			enqueueSnackbar('로그인에 실패하였습니다.', {variant: 'error'});
 			return;
 		}
-		enqueueSnackbar('로그인에 성공하였습니다.', {variant: 'success'});
 
+		console.log('메뉴 로그인전 : ' + JSON.stringify(menuItem));
+
+		if (result.memberType == 'camper') {
+			menuItem.items = [logout, camper];
+		} else {
+			menuItem.items = [logout, campsite];
+		}
+		console.log('메뉴 로그인후 : ' + JSON.stringify(menuItem));
+		enqueueSnackbar('로그인에 성공하였습니다.', {variant: 'success'});
 		dispatch(
 			successLogin({
 				memberId: result.id,
@@ -62,11 +64,9 @@ const AuthLogin = () => {
 		);
 		navigate('/');
 	};
-
 	const accessSuccess = async (values) => {
 		await memberLogin(values);
 	};
-
 	return (
 		<>
 			<Formik
@@ -182,7 +182,6 @@ const AuthLogin = () => {
 									)}
 								</Stack>
 							</Grid>
-
 							{errors.submit && (
 								<Grid item xs={12}>
 									<FormHelperText error>
@@ -210,5 +209,4 @@ const AuthLogin = () => {
 		</>
 	);
 };
-
 export default AuthLogin;

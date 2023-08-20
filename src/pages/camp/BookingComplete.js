@@ -38,8 +38,8 @@ const BokingComplete = () => {
 
 	const findBooking = async () => {
 		const result = await getBooking({bookingId});
-		console.log(result.site);
-		const campgroundResult = await getCampground({id: result.site.campId});
+		console.log(result.campId);
+		const campgroundResult = await getCampground({id: result.campId});
 		console.log('campgroundResult : ' + JSON.stringify(campgroundResult));
 		setBooking(result);
 		setCampground(campgroundResult);
@@ -123,8 +123,8 @@ const BokingComplete = () => {
 									placeholder='이름'
 									align='center' // 가운데 정렬
 								>
-									<b>{booking.booker.memberName}</b>님 예약
-									신청이 완료되었습니다.<br></br>
+									<b>{booking.memberName}</b>님 예약 신청이
+									완료되었습니다.<br></br>
 									<br></br>예약신청 후 6시간 내 입금이
 									확인되지 않으면<br></br>예약 신청이 취소될
 									수 있습니다.<br></br>
@@ -191,7 +191,7 @@ const BokingComplete = () => {
 												aria-label='maximum height'
 												placeholder='캠핑장명'
 											>
-												{booking.site.campName}
+												{booking.campName}
 											</Typography>
 											<br></br>
 											<Typography
@@ -214,7 +214,7 @@ const BokingComplete = () => {
 												aria-label='maximum height'
 												placeholder='사이트'
 											>
-												사이트 : {booking.site.siteName}
+												사이트 : {booking.siteName}
 											</Typography>
 
 											<Typography

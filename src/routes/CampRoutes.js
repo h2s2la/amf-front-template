@@ -14,8 +14,11 @@ const CampgroundList = Loadable(
 const Campground = Loadable(lazy(() => import('pages/camp/Campground')));
 // const Board = Loadable(lazy(() => import('pages/board/Board')));
 // const Post = Loadable(lazy(() => import('pages/board/Post')));
-const Createcampground = Loadable(
+const CreateCampground = Loadable(
 	lazy(() => import('pages/camp/CreateCampground')),
+);
+const UpdateCampground = Loadable(
+	lazy(() => import('pages/camp/UpdateCampground')),
 );
 
 const CampsiteList = Loadable(lazy(() => import('pages/camp/CampsiteList')));
@@ -59,7 +62,11 @@ const CampRoutes = {
 		},
 		{
 			path: 'campground/regist',
-			element: <Createcampground />,
+			element: <CreateCampground />,
+		},
+		{
+			path: 'campground/modify',
+			element: <UpdateCampground />,
 		},
 		{
 			path: 'campsite',

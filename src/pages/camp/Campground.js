@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 //import {deletePost, getCampground} from 'api/camp';
 import {getCampground} from 'api/camp';
+import {getCampReviewList} from 'api/review';
+import DataTable from 'components/@extended/DataTable';
 import {
 	Box,
 	Button,
@@ -24,15 +26,20 @@ const Campgounrd = () => {
 	const {id} = useParams();
 
 	const [campground, setCampground] = useState(null);
-	//const [deleteLoading, setDeleteLoading] = useState(false);
+	const [campReview, setCampReview] = useState(null);
+	const [isLoading, setLoading] = useState(false);
 
 	useEffect(() => {
 		findCampground();
 	}, [id]);
 
 	const findCampground = async () => {
+		setLoading(true);
 		const result = await getCampground({id});
 		setCampground(result);
+		const response = await getCampReviewList({id});
+		setCampReview(response);
+		setLoading(false);
 	};
 
 	const goBackList = () => {
@@ -110,7 +117,7 @@ const Campgounrd = () => {
 				</Toolbar>
 				<Divider />
 				<CardContent>
-					{campground ? (
+					{campground && campReview ? (
 						<Grid item xs={12}>
 							<Stack spacing={1}>
 								<img
@@ -244,6 +251,23 @@ const Campgounrd = () => {
 										maxHeight: '300px',
 									}}
 								/>
+
+								<br></br>
+								<Typography
+									variant='h4'
+									aria-label='maximum height'
+									placeholder='방문후기'
+								>
+									{'방문후기'}
+								</Typography>
+
+								<DataTable
+									columns={columns}
+									rows={campReview}
+									rowsPerPageOptions={[3, 10, 20]}
+									isLoading={isLoading}
+									//rowClick={rowClick}
+								/>
 							</Stack>
 						</Grid>
 					) : (
@@ -267,5 +291,154 @@ const Campgounrd = () => {
 		</>
 	);
 };
+
+const columns = [
+	{
+		id: 'review',
+
+		width: 1000,
+		align: 'center',
+		render: (rowData) => (
+			<>
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'row', // Horizontal layout
+						alignItems: 'flex-start', // Align items to the top
+					}}
+				>
+					<div
+						style={{
+							display: 'inline-block', // 블록 요소를 인라인 요소처럼 표시
+							//		border: '1px solid gray', // 회색 테두리 설정
+							//		borderRadius: '10px', // 모서리 둥글게 설정
+							padding: '5px', // 테두리와 글자 사이에 간격 주기
+							//		boxShadow: '3px 3px 5px rgba(0,0,0,0.3)', // 그림자 효과 설정
+							//		width: '400px', // 넓이를 100픽셀로 설정
+							justifyContent: 'left',
+						}}
+					>
+						<img
+							className='main-image'
+							src={
+								require('../../assets/images/user_image.png')
+									.default
+							}
+							alt='이미지'
+							style={{
+								//	maxWidth: '100%',
+								width: '40px', // 너비를 80%로 설정
+							}}
+						/>
+						<b>{rowData.user_nickname}</b>
+						<br></br>
+						{new Date(rowData.create_dt)
+							.toLocaleDateString('ko-KR', {
+								year: 'numeric',
+								month: '2-digit',
+								day: '2-digit',
+							})
+							.replace(/\./g, '.')}
+						{'(작성일자)'}
+					</div>
+					<div
+						style={{
+							display: 'inline-block',
+							padding: '5px',
+						}}
+					>
+						<div
+							style={{
+								display: 'flex', // flexbox 레이아웃 사용
+								alignItems: 'center', // 수직 정렬
+								justifyContent: 'left', // 수평 정렬
+							}}
+						>
+							<div
+								style={{
+									//backgroundColor: 'lightgray', // 배경색을 연한 회색으로 설정
+									borderRadius: '5px', // 모서리 둥글게 설정
+									margin: '5px', // div 사이에 10픽셀의 간격 주기
+									justifyContent: 'left',
+									width: '250px', // 넓이를 100픽셀로 설정
+								}}
+							>
+								{' '}
+								<b>청결도</b>
+								<br></br>
+								<b>{rowData.contents.clean_score}</b>
+								<br></br>
+								{rowData.contents.clean_comment}
+							</div>
+							<div
+								style={{
+									//	backgroundColor: 'lightgray', // 배경색을 연한 회색으로 설정
+									borderRadius: '5px', // 모서리 둥글게 설정
+									mamargin: '5px', // div 사이에 10픽셀의 간격 주기
+									justifyContent: 'left',
+									width: '250px', // 넓이를 100픽셀로 설정
+								}}
+							>
+								{' '}
+								<b>전망/뷰</b>
+								<br></br>
+								<b>{rowData.contents.landscape_score}</b>
+								<br></br>
+								{rowData.contents.landscape_comment}
+							</div>
+							<div
+								style={{
+									//	backgroundColor: 'lightgray', // 배경색을 연한 회색으로 설정
+									borderRadius: '5px', // 모서리 둥글게 설정
+									margin: '5px', // div 사이에 10픽셀의 간격 주기
+									justifyContent: 'left',
+									width: '250px', // 넓이를 100픽셀로 설정
+								}}
+							>
+								{' '}
+								<b>친절도</b>
+								<br></br>
+								<b>{rowData.contents.kindness_score}</b>
+								<br></br>
+								{rowData.contents.kindness_comment}
+							</div>
+							<div
+								style={{
+									//	backgroundColor: 'lightgray', // 배경색을 연한 회색으로 설정
+									borderRadius: '5px', // 모서리 둥글게 설정
+									margin: '5px', // div 사이에 10픽셀의 간격 주기
+									justifyContent: 'left',
+									width: '250px', // 넓이를 100픽셀로 설정
+								}}
+							>
+								{' '}
+								<b>부대/편의시설</b>
+								<br></br>
+								<b>{rowData.contents.convenience_score}</b>
+								<br></br>
+								{rowData.contents.convenience_comment}
+							</div>
+						</div>
+						<div
+							style={{
+								//	backgroundColor: 'lightgray', // 배경색을 연한 회색으로 설정
+								borderRadius: '5px', // 모서리 둥글게 설정
+								margin: '0 100px', // div 사이에 10픽셀의 간격 주기
+								justifyContent: 'left',
+								width: '1000px', // 넓이를 100픽셀로 설정
+								textAlign: 'left', // Set text alignment to left
+							}}
+						>
+							{' '}
+							<b>총평</b>
+							<br></br>
+							{rowData.contents.total_comment}
+						</div>
+					</div>
+				</div>
+			</>
+		),
+	},
+];
 
 export default Campgounrd;

@@ -6,7 +6,7 @@ import moment from 'moment';
 import {Button} from '@mui/material';
 import DataTable from 'components/@extended/DataTable';
 import {useNavigate} from 'react-router-dom';
-import {getBookingList} from 'api/booking';
+import {getCampBookingList} from 'api/booking';
 import {getCampsiteList} from 'api/camp';
 
 const BookingList = () => {
@@ -59,7 +59,7 @@ const BookingList = () => {
 		// 버튼 클릭 시 실행할 함수 정의
 		const handleClick = () => {
 			// /review/{rowData.id}로 이동
-			navigate(`/createReview/${rowData.bookingId}`);
+			navigate(`/createCampReview/${rowData.bookingId}`);
 		};
 		return (
 			<>
@@ -137,7 +137,10 @@ const BookingList = () => {
 						}}
 					>
 						<img
-							src={rowData.campsiteThumImage}
+							src={
+								require('../../assets/images/user_image.png')
+									.default
+							}
 							alt='campsite'
 							height='90'
 							width='90'
@@ -151,12 +154,12 @@ const BookingList = () => {
 							}}
 						>
 							{' '}
-							<b>{rowData.campName}</b>
+							<b>{rowData.memberName}</b>
 							<br></br>
 							{rowData.siteName}
 							<br></br>
 							<br></br>
-							예약번호 {rowData.bookingId}
+							방문인원 {rowData.people ? rowData.people : 1}명
 						</div>
 					</div>
 
@@ -222,7 +225,7 @@ const BookingList = () => {
 							<b>{rowData.people ? rowData.people : 1}</b>
 						</div>
 					</div>
-					{rowData.status == 'DONE' && days >= 0 && days <= 10 && (
+					{days >= 0 && days <= 10 && (
 						<Button
 							disableElevation
 							//		disabled={isSubmitting}
@@ -275,7 +278,7 @@ const BookingList = () => {
 		setLoading(true);
 
 		console.log('내 예약 리스트 : ' + memberId);
-		const response = await getBookingList({memberId});
+		const response = await getCampBookingList({memberId});
 		//setData(response);
 		const campsiteResult = await getCampsiteList();
 		const campsiteMap = {};

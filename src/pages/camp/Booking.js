@@ -61,7 +61,7 @@ const Booking = () => {
 
 	useEffect(() => {
 		findCampsiteList();
-	}, [id]);
+	}, [id, memberGrade]);
 
 	const findCampsiteList = async () => {
 		setLoading(true);
@@ -69,7 +69,7 @@ const Booking = () => {
 		console.log('member 정보 : ' + JSON.stringify(member));
 		const result = await getCampground({id});
 		setCampground(result);
-		const response = await getCampsiteListFindByGround({id});
+		const response = await getCampsiteListFindByGround({id}, memberGrade);
 		setData(response);
 		setLoading(false);
 	};
@@ -219,7 +219,7 @@ const Booking = () => {
 					enqueueSnackbar('캠핑사이트 예약완료하였습니다.', {
 						variant: 'success',
 					});
-					goComplete(response.id);
+					goComplete(response.bookingId);
 				}}
 			>
 				{({handleSubmit, isSubmitting}) => (

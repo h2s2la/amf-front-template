@@ -9,6 +9,10 @@ import MainLayout from 'layout/MainLayout';
 const DefaultPage = Loadable(lazy(() => import('pages/DefaultPage')));
 
 const ReviewList = Loadable(lazy(() => import('pages/mypage/ReviewList')));
+const CreateReview = Loadable(lazy(() => import('pages/mypage/CreateReview')));
+const CreateCampReview = Loadable(
+	lazy(() => import('pages/mypage/CreateCampReview')),
+);
 const Review = Loadable(lazy(() => import('pages/mypage/Review')));
 // const Board = Loadable(lazy(() => import('pages/board/Board')));
 // const Post = Loadable(lazy(() => import('pages/board/Post')));
@@ -23,6 +27,9 @@ const Review = Loadable(lazy(() => import('pages/mypage/Review')));
 // );
 
 const BookingList = Loadable(lazy(() => import('pages/mypage/BookingList')));
+const CampBookingList = Loadable(
+	lazy(() => import('pages/mypage/CampBookingList')),
+);
 // const BookingComplete = Loadable(
 // 	lazy(() => import('pages/camp/BookingComplete')),
 // );
@@ -40,16 +47,28 @@ const MypageRoutes = {
 			element: <DefaultPage />,
 		},
 		{
-			path: 'reivewList',
+			path: 'reviewList',
 			element: <ReviewList />,
 		},
 		{
-			path: 'review/:bookingId',
+			path: 'createReview/:bookingId',
+			element: <CreateReview />,
+		},
+		{
+			path: 'createCampReview/:bookingId',
+			element: <CreateCampReview />,
+		},
+		{
+			path: 'review/:review_id',
 			element: <Review />,
 		},
 		{
 			path: 'bookingList',
 			element: <BookingList />,
+		},
+		{
+			path: 'campBookingList',
+			element: <CampBookingList />,
 		},
 		// {
 		// 	path: 'bookingComplete/:bookingId',
