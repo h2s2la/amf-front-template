@@ -3,21 +3,27 @@ import {Button, Grid} from '@mui/material';
 import DataTable from 'components/@extended/DataTable';
 import {useNavigate} from 'react-router-dom';
 import {getCampsiteList} from 'api/camp';
-
+import {getMyCampground} from 'api/camp';
+import {useSelector} from 'react-redux';
 const CampsiteList = () => {
 	const navigate = useNavigate();
 
 	const [data, setData] = useState([]);
 	const [isLoading, setLoading] = useState(false);
-
+	const user = useSelector((state) => state.user);
+	const {memberId} = user;
 	useEffect(() => {
 		findCampsiteList();
-	}, []);
+	}, [memberId]);
 
 	const findCampsiteList = async () => {
 		setLoading(true);
 		const response = await getCampsiteList();
-		setData(response);
+
+		const result = await getMyCampground({id: memberId});
+		// response에서 result의 campId와 같은 것만 필터링
+		const myCampsite = response.filter((item) => item.campId === result.id);
+		setData(myCampsite);
 		setLoading(false);
 	};
 

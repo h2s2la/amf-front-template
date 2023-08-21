@@ -222,22 +222,27 @@ const BookingList = () => {
 							<b>{rowData.people ? rowData.people : 1}</b>
 						</div>
 					</div>
-					{rowData.status == 'DONE' && days >= 0 && days <= 10 && (
-						<Button
-							disableElevation
-							//		disabled={isSubmitting}
-							fullWidth
-							size='large'
-							type='submit'
-							variant='contained'
-							color='primary'
-							margin='7px' // div 사이에 10픽셀의 간격 주기
-							onClick={handleClick} // onClick 속성에 함수 할당
-						>
-							후기 작성하기
-						</Button>
-					)}
-					{((rowData.status == 'DONE' && days > 10) ||
+					{rowData.camperReviewYN == 0 &&
+						rowData.status == 'DONE' &&
+						days >= 0 &&
+						days <= 10 && (
+							<Button
+								disableElevation
+								//		disabled={isSubmitting}
+								fullWidth
+								size='large'
+								type='submit'
+								variant='contained'
+								color='primary'
+								margin='7px' // div 사이에 10픽셀의 간격 주기
+								onClick={handleClick} // onClick 속성에 함수 할당
+							>
+								후기 작성하기
+							</Button>
+						)}
+					{((rowData.camperReviewYN == 0 &&
+						rowData.status == 'DONE' &&
+						days > 10) ||
 						rowData.status == 'UNCOMPLETED') && (
 						<Button
 							disableElevation
@@ -250,6 +255,20 @@ const BookingList = () => {
 							margin='7px' // div 사이에 10픽셀의 간격 주기
 						>
 							후기 작성 기한 만료
+						</Button>
+					)}
+					{rowData.camperReviewYN == 1 && (
+						<Button
+							disableElevation
+							//		disabled={isSubmitting}
+							fullWidth
+							size='large'
+							type='submit'
+							variant='contained'
+							color='primary'
+							margin='7px' // div 사이에 10픽셀의 간격 주기
+						>
+							후기 작성 완료
 						</Button>
 					)}
 					<div>{rowData.address}</div>

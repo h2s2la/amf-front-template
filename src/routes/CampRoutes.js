@@ -23,8 +23,12 @@ const UpdateCampground = Loadable(
 
 const CampsiteList = Loadable(lazy(() => import('pages/camp/CampsiteList')));
 
-const Createcampsite = Loadable(
+const CreateCampsite = Loadable(
 	lazy(() => import('pages/camp/CreateCampsite')),
+);
+
+const UpdateCampsite = Loadable(
+	lazy(() => import('pages/camp/UpdateCampsite')),
 );
 
 const Booking = Loadable(lazy(() => import('pages/camp/Booking')));
@@ -74,7 +78,11 @@ const CampRoutes = {
 		},
 		{
 			path: 'campsite/regist',
-			element: <Createcampsite />,
+			element: <CreateCampsite />,
+		},
+		{
+			path: 'campsite/:id',
+			element: <UpdateCampsite />,
 		},
 	],
 };

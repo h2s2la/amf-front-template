@@ -314,7 +314,7 @@ const columns = [
 							//		borderRadius: '10px', // 모서리 둥글게 설정
 							padding: '5px', // 테두리와 글자 사이에 간격 주기
 							//		boxShadow: '3px 3px 5px rgba(0,0,0,0.3)', // 그림자 효과 설정
-							//		width: '400px', // 넓이를 100픽셀로 설정
+							width: '100px', // 넓이를 100픽셀로 설정
 							justifyContent: 'left',
 						}}
 					>

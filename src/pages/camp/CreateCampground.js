@@ -23,10 +23,10 @@ const CreateCampground = () => {
 	const {enqueueSnackbar} = useSnackbar();
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.user);
-	const {id, name} = user;
+	const {memberId} = user;
 
 	const goBackList = () => {
-		navigate(`/campground`);
+		navigate(`/campsite`);
 	};
 
 	const [startPickDate, setStartPickDate] = useState(new Date());
@@ -37,16 +37,36 @@ const CreateCampground = () => {
 		<>
 			<Formik
 				initialValues={{
-					campgroundName: '',
-					des: '',
-					author: {
-						authorId: id,
-						authorName: name,
-					},
+					name: '',
+					ownerName: '',
+					bizNumber: '',
+					contactNumber: '',
+					area: '',
+					areaDetail: '',
+					address: '',
+					facility: '',
+					campInfo: '',
+					grade: '',
+					requireGrade: '',
+					useYn: '',
+					bank: '',
+					account: '',
+					accountOwner: '',
+					checkInTime: '',
+					checkOutTime: '',
+					mannerStartTime: '',
+					mannerEndTime: '',
+					peakSeasonStartDate: '',
+					peakSeasonEndDate: '',
+					semiPeakSeasonStartDate: '',
+					semiPeakSeasonEndDate: '',
+					campThumImage: '',
+					layoutImage: '',
+					regUser: memberId,
 					submit: null,
 				}}
 				validationSchema={Yup.object().shape({
-					campgroundName: Yup.string()
+					name: Yup.string()
 						.max(255)
 						.required('캠핑장 이름은 필수입니다.'),
 				})}
@@ -88,29 +108,27 @@ const CreateCampground = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.campgroundName &&
-												errors.campgroundName,
+											touched.name && errors.name,
 										)}
-										id='campgroundName'
-										value={values.campgroundName}
-										name='campgroundName'
+										id='name'
+										value={values.name}
+										name='name'
 										onChange={handleChange}
 										placeholder='캠핑장 이름을 입력하세요'
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.campgroundName &&
-										errors.campgroundName && (
-											<FormHelperText
-												error
-												id='helper-text-campgroundName-signup'
-											>
-												{errors.campgroundName}
-											</FormHelperText>
-										)}
+									{touched.name && errors.name && (
+										<FormHelperText
+											error
+											id='helper-text-name-signup'
+										>
+											{errors.name}
+										</FormHelperText>
+									)}
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
-								<InputLabel htmlFor='name-signup' required>
+								<InputLabel htmlFor='ownerName-signup' required>
 									{' '}
 									대표자 이름
 								</InputLabel>
@@ -120,21 +138,22 @@ const CreateCampground = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.name && errors.name,
+											touched.ownerName &&
+												errors.ownerName,
 										)}
-										id='name'
-										value={values.name}
-										name='name'
+										id='ownerName'
+										value={values.ownerName}
+										name='ownerName'
 										onChange={handleChange}
 										placeholder=''
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.name && errors.name && (
+									{touched.ownerName && errors.ownerName && (
 										<FormHelperText
 											error
-											id='helper-text-name-signup'
+											id='helper-text-ownerName-signup'
 										>
-											{errors.name}
+											{errors.ownerName}
 										</FormHelperText>
 									)}
 								</Stack>
@@ -171,7 +190,7 @@ const CreateCampground = () => {
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
-								<InputLabel htmlFor='region-signup' required>
+								<InputLabel htmlFor='area-signup' required>
 									{' '}
 									지역
 								</InputLabel>
@@ -181,28 +200,28 @@ const CreateCampground = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.region && errors.region,
+											touched.area && errors.area,
 										)}
-										id='region'
-										value={values.region}
-										name='region'
+										id='area'
+										value={values.area}
+										name='area'
 										onChange={handleChange}
 										placeholder=''
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.region && errors.region && (
+									{touched.area && errors.area && (
 										<FormHelperText
 											error
-											id='helper-text-region-signup'
+											id='helper-text-area-signup'
 										>
-											{errors.region}
+											{errors.area}
 										</FormHelperText>
 									)}
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
 								<InputLabel
-									htmlFor='cellNumber-signup'
+									htmlFor='contactNumber-signup'
 									required
 								>
 									{' '}
@@ -214,24 +233,25 @@ const CreateCampground = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.cellNumber &&
-												errors.cellNumber,
+											touched.contactNumber &&
+												errors.contactNumber,
 										)}
-										id='cellNumber'
-										value={values.cellNumber}
-										name='cellNumber'
+										id='contactNumber'
+										value={values.contactNumber}
+										name='contactNumber'
 										onChange={handleChange}
 										placeholder=''
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.cellNumber && errors.cellNumber && (
-										<FormHelperText
-											error
-											id='helper-text-cellNumber-signup'
-										>
-											{errors.cellNumber}
-										</FormHelperText>
-									)}
+									{touched.contactNumber &&
+										errors.contactNumber && (
+											<FormHelperText
+												error
+												id='helper-text-contactNumber-signup'
+											>
+												{errors.contactNumber}
+											</FormHelperText>
+										)}
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
@@ -267,7 +287,7 @@ const CreateCampground = () => {
 							</Grid>
 							<Grid item xs={2}>
 								<InputLabel
-									htmlFor='startPickDate-signup'
+									htmlFor='peakSeasonStartDate-signup'
 									required
 								>
 									{' '}
@@ -292,7 +312,7 @@ const CreateCampground = () => {
 							</Grid>
 							<Grid item xs={2}>
 								<InputLabel
-									htmlFor='endPickDate-signup'
+									htmlFor='peakSeasonEndDate-signup'
 									required
 								>
 									{' '}
@@ -318,7 +338,7 @@ const CreateCampground = () => {
 							</Grid>
 							<Grid item xs={2}>
 								<InputLabel
-									htmlFor='startQPickDate-signup'
+									htmlFor='semiPeakSeasonStartDate-signup'
 									required
 								>
 									{' '}
@@ -343,7 +363,7 @@ const CreateCampground = () => {
 							</Grid>
 							<Grid item xs={2}>
 								<InputLabel
-									htmlFor='endQPickDate-signup'
+									htmlFor='semiPeakSeasonEndDate-signup'
 									required
 								>
 									{' '}
@@ -438,7 +458,7 @@ const CreateCampground = () => {
 							</Grid>
 							<Grid item xs={2}>
 								<InputLabel
-									htmlFor='startMannerTime-signup'
+									htmlFor='mannerStartTime-signup'
 									required
 								>
 									{' '}
@@ -450,30 +470,30 @@ const CreateCampground = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.startMannerTime &&
-												errors.startMannerTime,
+											touched.mannerStartTime &&
+												errors.mannerStartTime,
 										)}
-										id='startMannerTime'
-										value={values.startMannerTime}
-										name='startMannerTime'
+										id='mannerStartTime'
+										value={values.mannerStartTime}
+										name='mannerStartTime'
 										onChange={handleChange}
 										placeholder=''
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.startMannerTime &&
-										errors.startMannerTime && (
+									{touched.mannerStartTime &&
+										errors.mannerStartTime && (
 											<FormHelperText
 												error
-												id='helper-text-startMannerTime-signup'
+												id='helper-text-mannerStartTime-signup'
 											>
-												{errors.startMannerTime}
+												{errors.mannerStartTime}
 											</FormHelperText>
 										)}
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
 								<InputLabel
-									htmlFor='endMannerTime-signup'
+									htmlFor='mannerEndTime-signup'
 									required
 								>
 									{' '}
@@ -485,23 +505,23 @@ const CreateCampground = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.endMannerTime &&
-												errors.endMannerTime,
+											touched.mannerEndTime &&
+												errors.mannerEndTime,
 										)}
-										id='endMannerTime'
-										value={values.endMannerTime}
-										name='endMannerTime'
+										id='mannerEndTime'
+										value={values.mannerEndTime}
+										name='mannerEndTime'
 										onChange={handleChange}
 										placeholder=''
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.endMannerTime &&
-										errors.endMannerTime && (
+									{touched.mannerEndTime &&
+										errors.mannerEndTime && (
 											<FormHelperText
 												error
-												id='helper-text-endMannerTime-signup'
+												id='helper-text-mannerEndTime-signup'
 											>
-												{errors.endMannerTime}
+												{errors.mannerEndTime}
 											</FormHelperText>
 										)}
 								</Stack>
@@ -538,7 +558,7 @@ const CreateCampground = () => {
 							</Grid>
 							<Grid item xs={2}>
 								<InputLabel
-									htmlFor='accountHolder-signup'
+									htmlFor='accountOwner-signup'
 									required
 								>
 									{' '}
@@ -550,32 +570,29 @@ const CreateCampground = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.accountHolder &&
-												errors.accountHolder,
+											touched.accountOwner &&
+												errors.accountOwner,
 										)}
-										id='accountHolder'
-										value={values.accountHolder}
-										name='accountHolder'
+										id='accountOwner'
+										value={values.accountOwner}
+										name='accountOwner'
 										onChange={handleChange}
 										placeholder=''
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.accountHolder &&
-										errors.accountHolder && (
+									{touched.accountOwner &&
+										errors.accountOwner && (
 											<FormHelperText
 												error
-												id='helper-text-accountHolder-signup'
+												id='helper-text-accountOwner-signup'
 											>
-												{errors.accountHolder}
+												{errors.accountOwner}
 											</FormHelperText>
 										)}
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
-								<InputLabel
-									htmlFor='accountNumber-signup'
-									required
-								>
+								<InputLabel htmlFor='account-signup' required>
 									{' '}
 									계좌번호
 								</InputLabel>
@@ -585,25 +602,23 @@ const CreateCampground = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.accountNumber &&
-												errors.accountNumber,
+											touched.account && errors.account,
 										)}
-										id='accountNumber'
-										value={values.accountNumber}
-										name='accountNumber'
+										id='account'
+										value={values.account}
+										name='account'
 										onChange={handleChange}
 										placeholder=''
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.accountNumber &&
-										errors.accountNumber && (
-											<FormHelperText
-												error
-												id='helper-text-accountNumber-signup'
-											>
-												{errors.accountNumber}
-											</FormHelperText>
-										)}
+									{touched.account && errors.account && (
+										<FormHelperText
+											error
+											id='helper-text-account-signup'
+										>
+											{errors.account}
+										</FormHelperText>
+									)}
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
@@ -620,32 +635,29 @@ const CreateCampground = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.ReservationMemberGrade &&
-												errors.ReservationMemberGrade,
+											touched.requireGrade &&
+												errors.requireGrade,
 										)}
-										id='ReservationMemberGrade'
-										value={values.ReservationMemberGrade}
-										name='ReservationMemberGrade'
+										id='requireGrade'
+										value={values.requireGrade}
+										name='requireGrade'
 										onChange={handleChange}
 										placeholder=''
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.ReservationMemberGrade &&
-										errors.ReservationMemberGrade && (
+									{touched.requireGrade &&
+										errors.requireGrade && (
 											<FormHelperText
 												error
-												id='helper-text-ReservationMemberGrade-signup'
+												id='helper-text-requireGrade-signup'
 											>
-												{errors.ReservationMemberGrade}
+												{errors.requireGrade}
 											</FormHelperText>
 										)}
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
-								<InputLabel
-									htmlFor='introduction-signup'
-									required
-								>
+								<InputLabel htmlFor='campInfo-signup' required>
 									{' '}
 									캠핑장 소개
 								</InputLabel>
@@ -653,12 +665,12 @@ const CreateCampground = () => {
 							<Grid item xs={10}>
 								<Stack spacing={1}>
 									<TextareaAutosize
-										id='introduction'
-										name='introduction'
+										id='campInfo'
+										name='campInfo'
 										minRows={5}
 										aria-label='maximum height'
 										placeholder='캠핑장 소개를 입력하세요'
-										value={values.introduction}
+										value={values.campInfo}
 										style={customStyle}
 										onBlur={handleBlur}
 										onChange={handleChange}
@@ -666,7 +678,7 @@ const CreateCampground = () => {
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
-								<InputLabel htmlFor='amenities-signup' required>
+								<InputLabel htmlFor='facility-signup' required>
 									{' '}
 									부대시설
 								</InputLabel>
@@ -676,28 +688,30 @@ const CreateCampground = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.amenities &&
-												errors.amenities,
+											touched.facility && errors.facility,
 										)}
-										id='amenities'
-										value={values.amenities}
-										name='amenities'
+										id='facility'
+										value={values.facility}
+										name='facility'
 										onChange={handleChange}
 										placeholder=''
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.amenities && errors.amenities && (
+									{touched.facility && errors.facility && (
 										<FormHelperText
 											error
-											id='helper-text-amenities-signup'
+											id='helper-text-facility-signup'
 										>
-											{errors.amenities}
+											{errors.facility}
 										</FormHelperText>
 									)}
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
-								<InputLabel htmlFor='layout-signup' required>
+								<InputLabel
+									htmlFor='layoutImage-signup'
+									required
+								>
 									{' '}
 									배치도
 								</InputLabel>
@@ -707,27 +721,31 @@ const CreateCampground = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.layout && errors.layout,
+											touched.layoutImage &&
+												errors.layoutImage,
 										)}
-										id='layout'
-										value={values.layout}
-										name='layout'
+										id='layoutImage'
+										value={values.layoutImage}
+										name='layoutImage'
 										onChange={handleChange}
 										placeholder=''
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.layout && errors.layout && (
+									{touched.layoutImage && errors.layoutImage && (
 										<FormHelperText
 											error
-											id='helper-text-layout-signup'
+											id='helper-text-layoutImage-signup'
 										>
-											{errors.layout}
+											{errors.layoutImage}
 										</FormHelperText>
 									)}
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>
-								<InputLabel htmlFor='image-signup' required>
+								<InputLabel
+									htmlFor='campThumImage-signup'
+									required
+								>
 									{' '}
 									대표 이미지
 								</InputLabel>
@@ -737,23 +755,25 @@ const CreateCampground = () => {
 									<TextField
 										fullWidth
 										error={Boolean(
-											touched.image && errors.image,
+											touched.campThumImage &&
+												errors.campThumImage,
 										)}
-										id='image'
-										value={values.image}
-										name='image'
+										id='campThumImage'
+										value={values.campThumImage}
+										name='campThumImage'
 										onChange={handleChange}
 										placeholder='이미지 URL을 입력해주세요'
 										style={{backgroundColor: 'white'}}
 									/>
-									{touched.image && errors.image && (
-										<FormHelperText
-											error
-											id='helper-text-image-signup'
-										>
-											{errors.image}
-										</FormHelperText>
-									)}
+									{touched.campThumImage &&
+										errors.campThumImage && (
+											<FormHelperText
+												error
+												id='helper-text-campThumImage-signup'
+											>
+												{errors.campThumImage}
+											</FormHelperText>
+										)}
 								</Stack>
 							</Grid>
 							<Grid item xs={2}>

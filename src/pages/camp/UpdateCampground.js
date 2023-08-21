@@ -29,7 +29,7 @@ const UpdateCampground = () => {
 	const [campground, setCampground] = useState([]);
 	//const [isLoading, setLoading] = useState(false);
 	const goBackList = () => {
-		navigate(`/campground`);
+		navigate(`/campsite`);
 	};
 
 	useEffect(() => {

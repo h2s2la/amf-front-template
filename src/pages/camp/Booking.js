@@ -23,6 +23,7 @@ import {
 	Stack,
 	Toolbar,
 	Typography,
+	TextField,
 } from '@mui/material';
 import {DateRangePicker} from 'react-date-range';
 import {addDays} from 'date-fns';
@@ -160,6 +161,7 @@ const Booking = () => {
 					), // Convert to Korean time
 					//	campsiteId: campsiteId,
 					price: '0',
+					people: 0,
 					submit: null,
 				}}
 				//객체 validation :title 필
@@ -203,7 +205,9 @@ const Booking = () => {
 					values.siteName = campsite.campsiteName; //
 					values.address = campground.address; //
 					values.contactNumber = campground.contactNumber; //
-					values.price = campsite.price; //
+					values.basicPrice = campsite.price; //
+					values.bookingPrice = campsite.discountPrice; //
+					values.campOwnerId = campground.regUser;
 					// values.startDate = state[0].startDate; //
 					// values.endDate = state[0].endDate; //
 					values.startDate = formatDate(new Date(state[0].startDate)); // Convert to Korean time and format as yyyy-mm-dd
@@ -222,7 +226,7 @@ const Booking = () => {
 					goComplete(response.bookingId);
 				}}
 			>
-				{({handleSubmit, isSubmitting}) => (
+				{({handleSubmit, isSubmitting, handleChange, values}) => (
 					<form noValidate onSubmit={handleSubmit}>
 						<Stack direction='row' spacing={2}>
 							<Grid container>
@@ -270,6 +274,24 @@ const Booking = () => {
 												{campground.campInfo}
 											</Typography>
 											<br></br>
+											<Typography
+												variant='h4'
+												aria-label='maximum height'
+												placeholder='숙박인원'
+											>
+												{'숙박인원'}
+											</Typography>
+											<TextField
+												id='people'
+												value={values.people}
+												name='people'
+												onChange={handleChange}
+												placeholder='숙박인원 수를 숫자로 입력해주세요'
+												style={{
+													backgroundColor: 'white',
+												}}
+											/>
+											<br></br>
 											<DateRangePicker
 												ranges={state}
 												editableDateInputs={true}
@@ -284,6 +306,13 @@ const Booking = () => {
 											/>
 											<br></br>
 
+											<Typography
+												variant='h4'
+												aria-label='maximum height'
+												placeholder='배치도'
+											>
+												{'배치도'}
+											</Typography>
 											<img
 												src={campground.layoutImage}
 												alt='layoutImage'

@@ -15,6 +15,7 @@ import {createReview} from 'api/review';
 import {useSnackbar} from 'notistack';
 import {useSelector} from 'react-redux';
 import {getBooking} from 'api/booking';
+import {getCampground} from 'api/camp';
 import {getCampsite} from 'api/camp';
 import Rating from '@mui/material/Rating';
 const Review = () => {
@@ -43,12 +44,14 @@ const Review = () => {
 
 		const response = await getBooking({bookingId});
 		console.log(response);
+		const campgroundResult = await getCampground({id: response.campId});
 		const campsiteResult = await getCampsite({id: response.siteId});
 
 		//	console.log('@@@@@@@' + JSON.stringify(campsiteResult));
 		const bookingData = {
 			...response,
 			campId: response.campId,
+			campRegUser: campgroundResult.regUser,
 			campsiteThumImage: campsiteResult.campsiteThumImage,
 		};
 
@@ -110,6 +113,8 @@ const Review = () => {
 					user_nickname: memberNickName,
 					booking_no: parseInt(bookingId),
 					camp_id: data.campId,
+					camper_id: memberId,
+					camjigi_id: data.campRegUser,
 					type: 'camjigi',
 					contents: {
 						landscape_score: 5,

@@ -111,6 +111,7 @@ const Review = () => {
 					user_nickname: memberNickName,
 					booking_no: parseInt(bookingId),
 					camper_id: data.memberId,
+					camjigi_id: memberId,
 					type: 'camper',
 					contents: {
 						punctual_score: 5,

@@ -1,5 +1,6 @@
 //import React from 'react';
 import React, {useState, useEffect} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
 import * as Yup from 'yup';
 import {
 	Button,
@@ -11,51 +12,51 @@ import {
 	InputLabel,
 } from '@mui/material';
 import {Formik} from 'formik';
-import {createCampsite} from '../../api/camp';
-import {getMyCampground} from '../../api/camp';
-import {useNavigate} from 'react-router-dom';
+import {updateCampsite} from '../../api/camp';
+import {getCampsite} from '../../api/camp';
 import {useSnackbar} from 'notistack';
-import {useSelector} from 'react-redux';
+//import {useSelector} from 'react-redux';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const CreateCampsite = () => {
 	const {enqueueSnackbar} = useSnackbar();
 	const navigate = useNavigate();
-	const user = useSelector((state) => state.user);
-	const {memberId} = user;
-	const [campground, setCampground] = useState([]);
+	//const user = useSelector((state) => state.user);
+	//const {memberId} = user;
+	const [campsite, setCampsite] = useState([]);
 	const goBackList = () => {
 		navigate(`/campsite`);
 	};
 
-	useEffect(() => {
-		findMyCampground();
-	}, [memberId]);
+	const {id} = useParams();
 
-	const findMyCampground = async () => {
+	useEffect(() => {
+		findMyCampsite();
+	}, [id]);
+
+	const findMyCampsite = async () => {
 		//	setLoading(true);
 
-		console.log('member 정보 : ' + JSON.stringify(memberId));
-		const result = await getMyCampground({id: memberId});
-		console.log('1캠핑장 Data : ' + JSON.stringify(result));
-		setCampground(result);
-		console.log('2캠핑장 Data : ' + JSON.stringify(campground));
+		const response = await getCampsite({id});
+		console.log('1캠핑사이트 Data : ' + JSON.stringify(response));
+
+		setCampsite(response);
 	};
 
 	return (
 		<>
 			<Formik
-				key={campground}
+				key={campsite}
 				initialValues={{
-					campId: campground.id,
-					campsiteName: '',
-					campsiteInfo: '',
-					peopleLimit: 10,
-					price: 0,
-					useYn: 'Y',
-					weekendExtraCharge: 0,
-					campsiteThumImage: '',
-					regUser: memberId,
+					id: campsite.id,
+					campsiteName: campsite.campsiteName,
+					campsiteInfo: campsite.campsiteInfo,
+					peopleLimit: campsite.peopleLimit,
+					price: campsite.price,
+					useYn: campsite.useYn,
+					weekendExtraCharge: campsite.weekendExtraCharge,
+					campsiteThumImage: campsite.campsiteThumImage,
+					regUser: campsite.regUser,
 					submit: null,
 				}}
 				validationSchema={Yup.object().shape({
@@ -66,11 +67,11 @@ const CreateCampsite = () => {
 				onSubmit={async (values, {setSubmitting}) => {
 					setSubmitting(true);
 
-					await createCampsite(values);
+					await updateCampsite({id: campsite.id}, values);
 
 					setSubmitting(false);
 
-					enqueueSnackbar('캠핑장 사이트를 등록하였습니다.', {
+					enqueueSnackbar('캠핑장 사이트를 수정하였습니다.', {
 						variant: 'success',
 					});
 					goBackList();
@@ -334,7 +335,7 @@ const CreateCampsite = () => {
 										variant='contained'
 										color='primary'
 									>
-										등록
+										수정
 									</Button>
 								</Grid>
 								<Grid item>
